@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d88c51ed4bd0014985ae37037c73b43, type: 3}
+  m_Name: Ghostly Windbreaker
+  m_EditorClassIdentifier: 
+  itemType: 1
+  itemName: "\u539F\u7F6A\xB7\u8D2A\u5A6A"
+  icon: {fileID: -273343914, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  dropChance: 100
+  equipmentType: 1
+  equipmentQuality: 0
+  itemCooldown: 0
+  itemEffects:
+  - {fileID: 11400000, guid: c245a85462c2b0f49a77e1116a016f28, type: 2}
+  effectDescription: "\u8D2A\u5A6A\uFF1A\u6210\u529F\u95EA\u907F\u91CA\u653E\u6B7B\u6C14\uFF0C\u9020\u6210300%\u653B\u51FB\u4F24\u5BB3\uFF0C\u88AB\u547D\u4E2D\u5219\u76F4\u63A5\u6B7B\u4EA1\n\uFF08\u6B7B\u4EA1\u5982\u98CE\uFF0C\u5E38\u4F34\u543E\u8EAB\uFF09"
+  strength: 10
+  agility: 0
+  intelligence: 0
+  vitality: 0
+  damage: 100
+  critChance: 20
+  critPower: 50
+  health: 0
+  armor: 0
+  evasion: 50
+  magicResistence: 0
+  fireDamage: 0
+  iceDamage: 0
+  lightingDamage: 0
+  craftingMaterials:
+  - data: {fileID: 11400000, guid: 081ee56140205a44d966bd06902bc343, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: 670bea2bbca2a8043ad1d6dfa3715f81, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: 4b648fec18ecbcc43bcfe9b00f9af753, type: 2}
+    stackSize: 1

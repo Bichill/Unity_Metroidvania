@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d88c51ed4bd0014985ae37037c73b43, type: 3}
+  m_Name: Song of ice and fire
+  m_EditorClassIdentifier: 
+  itemType: 1
+  itemName: "\u51B0\u4E0E\u706B\u4E4B\u6B4C"
+  icon: {fileID: 1398721256, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  dropChance: 100
+  equipmentType: 0
+  equipmentQuality: 1
+  itemCooldown: 0
+  itemEffects:
+  - {fileID: 11400000, guid: 17a60f62aa8e4ef4bbbb63aaad3f8d24, type: 2}
+  - {fileID: 11400000, guid: 917fa8d7681ca8740bbaa4cc8cd46ea8, type: 2}
+  - {fileID: 11400000, guid: bfb51e8caec863746ac12396dc508a56, type: 2}
+  effectDescription: "\u7B2C\u4E09\u6B21\u653B\u51FB\u51FB\u4E2D\u654C\u4EBA\u5236\u9020\u706B\u7130/\u5BD2\u51B0\u5200\u5149\u98CE\u66B4\uFF0C\u9020\u6210\u5DE8\u989D\u4F24\u5BB3\uFF08\u6B64\u8BCD\u6761\u65E0\u6CD5\u5E94\u7528\u4E8E\u5E7B\u5F71\uFF09"
+  strength: 0
+  agility: 0
+  intelligence: 0
+  vitality: 0
+  damage: 10
+  critChance: 0
+  critPower: 0
+  health: 0
+  armor: 0
+  evasion: 0
+  magicResistence: 0
+  fireDamage: 10
+  iceDamage: 10
+  lightingDamage: 0
+  craftingMaterials:
+  - data: {fileID: 11400000, guid: 97a28e11f26b9a440bf57077ef1bec27, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: c2b049c8ba95a60479c6ad1243b7e060, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: ea2af0da0bff16d41a3f5340a2f3eaf8, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: e3b2caa5a36a49c489a3454f2ae35fe2, type: 2}
+    stackSize: 1

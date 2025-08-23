@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d88c51ed4bd0014985ae37037c73b43, type: 3}
+  m_Name: Thundergod's Wrath
+  m_EditorClassIdentifier: 
+  itemType: 1
+  itemName: "\u96F7\u795E\u4E4B\u6012"
+  icon: {fileID: -245851270, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  dropChance: 100
+  equipmentType: 2
+  equipmentQuality: 2
+  itemCooldown: 0
+  itemEffects:
+  - {fileID: 11400000, guid: fabe40ad86b8d6e4c9d6a059417e9d1c, type: 2}
+  effectDescription: "\u597D\u597D\u627F\u53D7\u96F7\u795E\u7684\u6012\u706B\u5427\uFF0C\u54C8\uFF01\u54C8\uFF01"
+  strength: 5
+  agility: 0
+  intelligence: 5
+  vitality: 0
+  damage: 0
+  critChance: 0
+  critPower: 0
+  health: 50
+  armor: 0
+  evasion: 0
+  magicResistence: 20
+  fireDamage: 0
+  iceDamage: 0
+  lightingDamage: 30
+  craftingMaterials:
+  - data: {fileID: 11400000, guid: c2b049c8ba95a60479c6ad1243b7e060, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: 97a28e11f26b9a440bf57077ef1bec27, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: 4b648fec18ecbcc43bcfe9b00f9af753, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: 74f04cffc6ccdbd46b7f9e769b1ab141, type: 2}
+    stackSize: 1

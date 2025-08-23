@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d88c51ed4bd0014985ae37037c73b43, type: 3}
+  m_Name: Fire flask
+  m_EditorClassIdentifier: 
+  itemType: 1
+  itemName: "\u706B\u7130\u836F\u5242"
+  icon: {fileID: 1282215044, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  dropChance: 100
+  equipmentType: 3
+  equipmentQuality: 3
+  itemCooldown: 15
+  itemEffects:
+  - {fileID: 11400000, guid: 5ed518671b264e142970eb1a7cfa749d, type: 2}
+  effectDescription: "\u589E\u52A020%\u706B\u5C5E\u6027\u4F24\u5BB3\uFF0C\u6301\u7EED7\u79D2"
+  strength: 0
+  agility: 0
+  intelligence: 0
+  vitality: 0
+  damage: 0
+  critChance: 0
+  critPower: 0
+  health: 0
+  armor: 0
+  evasion: 0
+  magicResistence: 0
+  fireDamage: 0
+  iceDamage: 0
+  lightingDamage: 0
+  craftingMaterials:
+  - data: {fileID: 11400000, guid: e3b2caa5a36a49c489a3454f2ae35fe2, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: e3b2caa5a36a49c489a3454f2ae35fe2, type: 2}
+    stackSize: 1

@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d88c51ed4bd0014985ae37037c73b43, type: 3}
+  m_Name: Amethyst armor
+  m_EditorClassIdentifier: 
+  itemType: 1
+  itemName: "\u7D2B\u6676\u62A4\u7532"
+  icon: {fileID: -1871269579, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  dropChance: 100
+  equipmentType: 1
+  equipmentQuality: 1
+  itemCooldown: 10
+  itemEffects:
+  - {fileID: 11400000, guid: b3d7280d197c94649a0f8a64a8d878b9, type: 2}
+  effectDescription: "\u53D7\u51FB\u65F6\u5F15\u53D1\u4E00\u6B21\u7206\u70B8\uFF0C\u51BB\u7ED3\u5468\u56F4\u654C\u4EBA\uFF0C\u51B7\u537410\u79D2"
+  strength: 0
+  agility: 0
+  intelligence: 0
+  vitality: 0
+  damage: 0
+  critChance: 0
+  critPower: 0
+  health: 100
+  armor: 50
+  evasion: 0
+  magicResistence: 20
+  fireDamage: 0
+  iceDamage: 5
+  lightingDamage: 0
+  craftingMaterials:
+  - data: {fileID: 11400000, guid: c2b049c8ba95a60479c6ad1243b7e060, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: ea2af0da0bff16d41a3f5340a2f3eaf8, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: 84696065c09f9f94b93b14818778693e, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: 42bcf43be6ee85e4d8e139835b914acc, type: 2}
+    stackSize: 1
