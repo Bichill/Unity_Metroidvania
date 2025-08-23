@@ -1,0 +1,17 @@
+*.vsidx
+/Library/
+/Temp/
+/obj/
+/Logs/
+/UserSettings/
+*.sln
+*.csproj
+*.unityproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+.DS_Store
+.vs/
+Build/
