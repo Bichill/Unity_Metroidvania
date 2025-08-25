@@ -13,6 +13,9 @@ public class SaveManager : MonoBehaviour
     private List<ISaveManager> saveManagers;
     private FileDataHandler dataHandler;
 
+    // 公共屬性，用於外部訪問 gameData
+    public GameData GameData => gameData;
+
     private void Awake()
     {
         if (instance != null)
@@ -27,7 +30,9 @@ public class SaveManager : MonoBehaviour
 
     private void Start()
     {
+        //根据游戏文件路径（游戏存档）和文件名创建数据处理器
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+        // 获取所有实现了 ISaveManager 接口的 MonoBehaviour 对象
         saveManagers = FindAllSaveManagers();
 
         LoadGame();
@@ -40,6 +45,7 @@ public class SaveManager : MonoBehaviour
 
     public void LoadGame()
     {
+        //获取存档文件并且返回一个纯数据类（总表）
         gameData = dataHandler.Load();
 
         if (this.gameData == null)
@@ -67,6 +73,7 @@ public class SaveManager : MonoBehaviour
         dataHandler.Save(gameData);
     }
 
+    //游戏退出自动调用
     private void OnApplicationQuit()
     {
         SaveGame();
@@ -74,7 +81,9 @@ public class SaveManager : MonoBehaviour
 
     private List<ISaveManager> FindAllSaveManagers()
     {
-        IEnumerable<ISaveManager> saveManagers = FindObjectsOfType<MonoBehaviour>().OfType<ISaveManager>();
+        // 获取所有实现了 ISaveManager 接口的 MonoBehaviour 对象
+        // FindObjectsOfType<MonoBehaviour>(true)中添加true可以使其捕获到未激活的Object
+        IEnumerable<ISaveManager> saveManagers = FindObjectsOfType<MonoBehaviour>(true).OfType<ISaveManager>();
 
         return new List<ISaveManager>(saveManagers);
     }

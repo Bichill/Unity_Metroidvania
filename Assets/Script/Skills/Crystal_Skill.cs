@@ -8,7 +8,7 @@ public class Crystal_Skill : Skill
 {
     [SerializeField] private float crystalDuration;
     [SerializeField] private GameObject crystalPrefab;
-    private GameObject currentCrystal;// è¿™ä¸ªå˜é‡ç°åœ¨åªä»£è¡¨é€šè¿‡Fé”®åˆ›å»ºçš„æ°´æ™¶
+    private GameObject currentCrystal;// µ±Ç°Ë®¾§¶ÔÏó
     [SerializeField] Color defaultCrystalColor;
     [SerializeField] Color currentCrystalColor;
 
@@ -32,27 +32,29 @@ public class Crystal_Skill : Skill
 
     [Header("Multi stacking crystal")]
     [SerializeField] private UI_SkillTreeSlot crystalMultiUnlockButton;
-    public bool crystalMultiUnlocked { get; private set; }//æ°´æ™¶å¤šé‡çš„å¼€å…³
-    public int amountOfCrystal;//æ°´æ™¶å¤šé‡æœ€å¤šå­˜å‚¨å¤šå°‘é¢—æ°´æ™¶
-    public float multiStackCooldown;//æ°´æ™¶è£…å¡«æ—¶é—´
+    public bool crystalMultiUnlocked { get; private set; }//¶àÖØË®¾§½âËø×´Ì¬
+    public int amountOfCrystal;//¶àÖØË®¾§ÊıÁ¿
+    public float multiStackCooldown;//¶àÖØË®¾§ÀäÈ´Ê±¼ä
     [SerializeField] private List<GameObject> crystalLeft = new List<GameObject>();
 
     protected override void Start()
     {
         base.Start();
-
+        // CheckUnlocked() •şÔÚ»ùî Start() ÖĞ×Ô„ÓÕ{ÓÃ
         crystalUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystal);
-        crystalExplosiveUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystalExplosive);
-        crystalMovingUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystalMoving);
-        crystalMirageUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystalMirage);
-        crystalMultiUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystalMulti);
+
+        crystalUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockCrystal);
+        crystalExplosiveUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockCrystalExplosive);
+        crystalMovingUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockCrystalMoving);
+        crystalMirageUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockCrystalMirage);
+        crystalMultiUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockCrystalMulti);
     }
 
     protected override void Update()
     {
         base.Update();
         
-        // è™•ç†æ°´æ™¶è£å¡«
+        // Èç¹û´¦ÓÚ¶àÖØË®¾§Ä£Ê½£¬ÔòË¢ĞÂË®¾§
         if (crystalMultiUnlocked)
         {
             RefilCrystal();
@@ -61,10 +63,17 @@ public class Crystal_Skill : Skill
 
     public override bool CanUseSkill()
     {
-        // å¦‚æœæ˜¯å¤šé‡æ°´æ™¶æ¨¡å¼ï¼Œä½¿ç”¨ç‰¹æ®Šçš„å†·å»é‚è¼¯
+        // ™z²éÊÇ·ñÒÑ½âæi
+        if (!crystalUnlocked)
+        {
+            Debug.Log("Crystal skill not unlocked!");
+            return false;
+        }
+
+        // Èç¹ûÊÇ¶àÖØË®¾§Ä£Ê½£¬Ê¹ÓÃÌØÊâµÄÀäÈ´»úÖÆ
         if (crystalMultiUnlocked)
         {
-            // å¤šé‡æ°´æ™¶æ¨¡å¼ï¼šåªè¦æœ‰æ°´æ™¶å°±å¯ä»¥ç™¼å°„ï¼Œæ²’æœ‰å†·å»é™åˆ¶
+            // ¶àÖØË®¾§Ä£Ê½£ºÖ»ÒªÓĞË®¾§¾Í¿ÉÒÔ·¢Éä£¬Ã»ÓĞÀäÈ´ÏŞÖÆ
             if (crystalLeft.Count > 0)
             {
                 UseSkill();
@@ -73,11 +82,18 @@ public class Crystal_Skill : Skill
             return false;
         }
         
-        // æ™®é€šæ¨¡å¼ï¼šä½¿ç”¨åŸºé¡çš„å†·å»é‚è¼¯
-        return base.CanUseSkill();
+        // ÆÕÍ¨Ä£Ê½£ºÊ¹ÓÃ»ù´¡µÄÀäÈ´»úÖÆ
+        if (cooldownTimer < 0)
+        {
+            UseSkill();
+            cooldownTimer = cooldown;
+            return true;
+        }
+    
+        return false;
     }
 
-    //æŠ€èƒ½è§£é”åŒºåŸŸ
+    //¼¼ÄÜ½âËøÇøÓò
     #region Unlock Skill
     public void UnlockCrystal()
     {
@@ -111,13 +127,22 @@ public class Crystal_Skill : Skill
 
     #endregion
 
-    //æŠ€èƒ½å®ç°åŒºåŸŸ
+    protected override void CheckUnlocked()
+    {
+        UnlockCrystal();
+        UnlockCrystalExplosive();
+        UnlockCrystalMirage();
+        UnlockCrystalMoving();
+        UnlockCrystalMulti();
+    }
+
+    //¼¼ÄÜÊµÏÖÇøÓò
     #region Skill
     public override void UseSkill()
     {
         base.UseSkill();
 
-        if (CanUseMultiCrystal()) return;//æ°´æ™¶å¤šé‡
+        if (CanUseMultiCrystal()) return;//Ë®¾§¶àÖØ
 
         if (currentCrystal == null)
         {
@@ -130,9 +155,12 @@ public class Crystal_Skill : Skill
             player.transform.position = currentCrystal.transform.position;
             currentCrystal.transform.position = playerPos;
 
-            if (crystalMirageUnlocked)//æ°´æ™¶æ›¿æ¢ä¸ºå¹»å½±
+            if (crystalMirageUnlocked)//Ë®¾§Ìæ»»³É»ÃÓ°
+            {
+                if (SkillManager.instance != null && SkillManager.instance.clone != null)
             {
                 SkillManager.instance.clone.CreatClone(currentCrystal.transform, Vector3.zero);
+                }
                 Destroy(currentCrystal);
             }
             else
@@ -149,10 +177,10 @@ public class Crystal_Skill : Skill
         
         if (_isTrackCrystal)
         {
-            // è¿™æ˜¯ä½œä¸ºå…‹éš†æ›¿èº«å‡ºç°çš„æ°´æ™¶ï¼ˆä¾‹å¦‚ï¼Œç”±Clone_Skillè°ƒç”¨æˆ–Crystal_Skillè‡ªèº«è®¾ç½®ä¸ºæ›¿èº«æ¨¡å¼æ—¶åˆ›å»ºï¼‰ã€‚
-            // å®ƒä¸åº”è¢«æ¢ä½ï¼Œå¹¶ä¸”é¢œè‰²ä¸ºé»˜è®¤é¢œè‰²ã€‚
+            // ÕâÊÇ×÷Îª¿ËÂ¡ÌæÉí³öÏÖµÄË®¾§£¨ÀıÈç£¬ÓÉClone_Skillµ÷ÓÃ»òCrystal_Skill×Ô¼ºÉèÖÃÎªÌæÉíÄ£Ê½Ê±´´½¨£©
+            // Ëü²»Ó¦¸Ã´«ËÍ£¬²¢ÇÒÑÕÉ«ÎªÄ¬ÈÏÑÕÉ«
             newCrystal.GetComponent<SpriteRenderer>().color = defaultCrystalColor;
-            // é‡è¦çš„ï¼šä¸è¦å°†å®ƒèµ‹å€¼ç»™currentCrystalï¼Œè¿™æ ·å®ƒå°±ä¸ä¼šè¢«ç”¨äºæ¢ä½æ“ä½œã€‚
+            // ÖØÒªµÄ£º²»Òª½«Ëü¸³Öµ¸øcurrentCrystal£¬ÕâÑùËü¾Í²»»á±»ÓÃÓÚ´«ËÍ²Ù×÷
             //crystalMovingUnlocked = true;
             newCrystalScript.SetupCrystal(crystalDuration, crystalExplosiveUnlocked, true, moveSpeed, randomTargetRadius);
             newCrystalScript.ChooseRandomTarget();
@@ -162,7 +190,7 @@ public class Crystal_Skill : Skill
         {
             currentCrystal = newCrystal;
             currentCrystal.GetComponent<SpriteRenderer>().color = currentCrystalColor;
-            //crystalMovingUnlocked = false;//ç›´æ¥åˆ›å»ºçš„æ°´æ™¶ä¸ä½ç§»
+            //crystalMovingUnlocked = false;//Ö±½Ó´´½¨µÄË®¾§²»Î»ÒÆ
             newCrystalScript.SetupCrystal(crystalDuration, crystalExplosiveUnlocked, false, moveSpeed, randomTargetRadius);
         }
 
@@ -186,24 +214,24 @@ public class Crystal_Skill : Skill
         {
             if (crystalLeft.Count > 0)
             {
-                //æ°´æ™¶ä»åˆ—è¡¨ä¸­å–å‡ºå¹¶ä¸”ç”Ÿæˆé¢„åˆ¶ä½“
+                //Ë®¾§´ÓÁĞ±íÖĞÈ¡³ö²¢ÇÒÉú³ÉÔ¤ÖÆÌå
                 GameObject crystalToSpawn = crystalLeft[crystalLeft.Count - 1];
                 GameObject newCrystal = Instantiate(crystalToSpawn, player.transform.position, Quaternion.identity);
-                //æ°´æ™¶è¢«å–å‡ºåå°±è¦ä»åˆ—è¡¨åˆ é™¤
+                //Ë®¾§±»È¡³öºó¾ÍÒª´ÓÁĞ±íÉ¾³ı
                 crystalLeft.Remove(crystalToSpawn);
 
-                //å¤šé‡æ°´æ™¶ä½¿ç”¨é»˜è®¤é¢œè‰²
+                //¶àÖØË®¾§Ê¹ÓÃÄ¬ÈÏÑÕÉ«
                 newCrystal.GetComponent<SpriteRenderer>().color = defaultCrystalColor;
 
                 var crystalScript = newCrystal.GetComponent<Crystal_Skill_Controller>();
                 crystalScript.SetupCrystal(crystalDuration, crystalExplosiveUnlocked, crystalMovingUnlocked, moveSpeed, randomTargetRadius);
                 crystalScript.ChooseRandomTarget();
 
-                return true; // æˆåŠŸç™¼å°„æ°´æ™¶
+                return true; // ³É¹¦·¢ÉäË®¾§
             }
-            return false; // æ²’æœ‰æ°´æ™¶å¯ç™¼å°„
+            return false; // Ã»ÓĞË®¾§¿É·¢Éä
         }
-        return false;// æŠ€èƒ½æœªè§£é”
+        return false;// ¼¼ÄÜÎ´½âËø
     }
 
     private void RefilCrystal()
@@ -223,4 +251,6 @@ public class Crystal_Skill : Skill
         return crystalLeft.Count;
     }
     #endregion 
+
+
 }

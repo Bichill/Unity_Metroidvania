@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BlackHole_Skill : Skill
 {
@@ -37,8 +38,8 @@ public class BlackHole_Skill : Skill
     protected override void Start()
     {
         base.Start();
-
-        blackHoleUnlockButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(UnlockBlackHole);
+        // CheckUnlocked() 會在基類 Start() 中自動調用
+        blackHoleUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockBlackHole);
     }
 
     protected override void Update()
@@ -53,4 +54,11 @@ public class BlackHole_Skill : Skill
             blackHoleUnlocked = true;
         }
     }
+
+    protected override void CheckUnlocked()
+    {
+        UnlockBlackHole();
+    }
+
+
 }

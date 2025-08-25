@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Clone_Skill : Skill
 {
@@ -39,11 +40,12 @@ public class Clone_Skill : Skill
     protected override void Start()
     {
         base.Start();
+        // CheckUnlocked() 會在基類 Start() 中自動調用
 
-        attackCloneUnlockButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(UnlockCloneAttack);
-        aggresiveCloneUnlockButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(UnlockAggresiveClone);
-        multipleCloneUnlockButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(UnlockMultipleClone);
-        insteadCloneUnlockButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(UnlockInsteadClone);
+        attackCloneUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockCloneAttack);
+        aggresiveCloneUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockAggresiveClone);
+        multipleCloneUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockMultipleClone);
+        insteadCloneUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockInsteadClone);
     }
 
     #region Unlock clone
@@ -85,13 +87,24 @@ public class Clone_Skill : Skill
         }
     }
 
+    protected override void CheckUnlocked()
+    {
+        UnlockCloneAttack();
+        UnlockAggresiveClone();
+        UnlockMultipleClone();
+        UnlockInsteadClone();
+    }
+
     #endregion
 
     public void CreatClone(Transform _clonePosition , Vector3 _offset)
     {
         if (crystalInsteadOfClone)
         {
+            if (SkillManager.instance != null && SkillManager.instance.crystal != null)
+        {
             SkillManager.instance.crystal.CreateCrystal(true);//替换克隆体出现的水晶无法换位
+            }
             return;
         }
         
@@ -110,4 +123,6 @@ public class Clone_Skill : Skill
         yield return new WaitForSeconds(.2f);
             CreatClone(_transform,_offset);
     }
+
+
 }

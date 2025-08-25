@@ -67,13 +67,14 @@ public class Sword_Skill : Skill
 
         GenereateDots();
         SetupGravity();
+        // CheckUnlocked() 會在基類 Start() 中自動調用
 
-        unlockSwordButton.GetComponent<Button>().onClick.AddListener(UnlockSword);
-        unlockBounceButton.GetComponent<Button>().onClick.AddListener(UnlockBounce);
-        unlockPierceButton.GetComponent<Button>().onClick.AddListener(UnlockPierce);
-        unlockSpinButton.GetComponent<Button>().onClick.AddListener(UnlockSpin);
-        unlockTimeStopButton.GetComponent<Button>().onClick.AddListener(UnlockTimeStop);
-        unlockVulnerableButton.GetComponent<Button>().onClick.AddListener(UnlockVulnerable);
+        unlockSwordButton.GetComponent<Button>()?.onClick.AddListener(UnlockSword);
+        unlockBounceButton.GetComponent<Button>()?.onClick.AddListener(UnlockBounce);
+        unlockPierceButton.GetComponent<Button>()?.onClick.AddListener(UnlockPierce);
+        unlockSpinButton.GetComponent<Button>()?.onClick.AddListener(UnlockSpin);
+        unlockTimeStopButton.GetComponent<Button>()?.onClick.AddListener(UnlockTimeStop);
+        unlockVulnerableButton.GetComponent<Button>()?.onClick.AddListener(UnlockVulnerable);
     }
 
     private void SetupGravity()
@@ -160,6 +161,16 @@ public class Sword_Skill : Skill
             vulnerableUnlocked = true;
     }
 
+    protected override void CheckUnlocked()
+    {
+        UnlockSword();
+        UnlockBounce();
+        UnlockPierce();
+        UnlockSpin();
+        UnlockTimeStop();
+        UnlockVulnerable();
+    }
+
     #endregion
 
     #region skill
@@ -228,4 +239,6 @@ public class Sword_Skill : Skill
     #endregion
 
     #endregion
+
+
 }

@@ -45,12 +45,12 @@ public class PlayerWallslidState : PlayerState
         if (Input.GetKeyDown(KeyCode.K) && player.jumpCount>0)
         {
             player.jumpCount--;
-            // 计算45度角跳跃的向量
+            // 计算45度角跳跃的向�?
             float jumpForce = PlayerManager.instance.player.jumpForce;
             float jumpDirection = -player.facingDir; // 向墙外跳跃，所以方向与面向相反
             Vector2 jumpVector = new Vector2(jumpDirection * jumpForce * 0.5f, jumpForce);
             player.SetVelocity(jumpVector.x, jumpVector.y);
-            player.StartCoroutine(player.BusyFor(0.1f)); // 添加0.2秒的无法控制时间
+            player.StartCoroutine(player.BusyFor(0.1f)); // ����0.1��ğo�����ƕr�g
             stateMachine.ChangeState(player.jumpState);
         }
 

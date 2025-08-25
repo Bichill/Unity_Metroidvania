@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_SkillTreeSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
+public class UI_SkillTreeSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,ISaveManager
 {
     private UI ui;
     private Image skillImage;
@@ -36,7 +36,8 @@ public class UI_SkillTreeSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitH
         skillImage = GetComponent<Image>();
         ui = GetComponentInParent<UI>();
 
-        skillImage.color = lockedSkillColor;
+        // 根據當前解鎖狀態設置顏色
+        UpdateSkillVisual();
     }
 
     public void UnlockSkillSlot()
@@ -69,7 +70,7 @@ public class UI_SkillTreeSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitH
         }
 
         unlocked = true;
-        skillImage.color = Color.white;
+        UpdateSkillVisual();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -80,5 +81,39 @@ public class UI_SkillTreeSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitH
     public void OnPointerExit(PointerEventData eventData)
     {
         ui.skillToolTip.HideToolTip();
+    }
+
+    private void UpdateSkillVisual()
+    {
+        if (skillImage == null)
+            skillImage = GetComponent<Image>();
+
+        skillImage.color = unlocked ? Color.white : lockedSkillColor;
+    }
+
+    public void LoadData(GameData _data)
+    {
+        if (_data.skillTree.TryGetValue(skillName, out bool value))
+        {
+            unlocked = value;
+            // 更新UI視覺效果
+            UpdateSkillVisual();
+        }
+    }
+
+    //因为此脚本是槽，因此有很多，每个槽保存一个数据即可，不需要foreach
+    public void SaveData(ref GameData _data)
+    {
+        //设计if、else是为了避免重复添加，即一键多值的情况出现
+        if (_data.skillTree.TryGetValue(skillName, out bool value))
+        {
+            //所以要先清除再添加
+            _data.skillTree.Remove(skillName);
+            _data.skillTree.Add(skillName, unlocked);
+        }
+        else
+        {
+            _data.skillTree.Add(skillName, unlocked);
+        }
     }
 }

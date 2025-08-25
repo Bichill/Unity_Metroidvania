@@ -20,10 +20,11 @@ public class Parry_Skill : Skill
     protected override void Start()
     {
         base.Start();
+        // CheckUnlocked() 會在基類 Start() 中自動調用
 
-        parryUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockParry);
-        restoreUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockRestore);
-        parryWithMirageUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockParryWithMirage);
+        parryUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockParry);
+        restoreUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockRestore);
+        parryWithMirageUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockParryWithMirage);
     }
 
     public override void UseSkill()
@@ -55,9 +56,20 @@ public class Parry_Skill : Skill
             parryWithMirageUnlocked = true;
     }
 
+    protected override void CheckUnlocked()
+    {
+        UnlockParry();
+        UnlockRestore();
+        UnlockParryWithMirage();
+    }
+
     public void CreatMirageOnParry(Transform _transformToSpawn)
     {
-        if (parryWithMirageUnlocked)
+        if (parryWithMirageUnlocked && SkillManager.instance != null && SkillManager.instance.clone != null)
+        {
             SkillManager.instance.clone.CreateCloneWithDelay(_transformToSpawn);
+        }
     }
+
+
 }

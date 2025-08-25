@@ -15,6 +15,7 @@ MonoBehaviour:
   itemType: 1
   itemName: "\u6D41\u6C13\u5939\u514B"
   icon: {fileID: 1667790894, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  itemId: 783f31adf7cd5f4418f30b3e58ed4808
   dropChance: 100
   equipmentType: 1
   equipmentQuality: 2
@@ -39,7 +40,5 @@ MonoBehaviour:
   craftingMaterials:
   - data: {fileID: 11400000, guid: 670bea2bbca2a8043ad1d6dfa3715f81, type: 2}
     stackSize: 1
-  - data: {fileID: 11400000, guid: 670bea2bbca2a8043ad1d6dfa3715f81, type: 2}
-    stackSize: 1
-  - data: {fileID: 11400000, guid: 670bea2bbca2a8043ad1d6dfa3715f81, type: 2}
+  - data: {fileID: 11400000, guid: c2b049c8ba95a60479c6ad1243b7e060, type: 2}
     stackSize: 1

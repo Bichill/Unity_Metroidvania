@@ -25,10 +25,11 @@ public class Dash_Skill : Skill
     protected override void Start()
     {
         base.Start();
+        // CheckUnlocked() 會在基類 Start() 中自動調用
 
-        dashUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockDash);
-        cloneOnDashUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCloneOnDash);
-        cloneOnArrivalUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCloneOnArrival);
+        dashUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockDash);
+        cloneOnDashUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockCloneOnDash);
+        cloneOnArrivalUnlockButton.GetComponent<Button>()?.onClick.AddListener(UnlockCloneOnArrival);
     }
 
     private void UnlockDash()
@@ -51,9 +52,16 @@ public class Dash_Skill : Skill
             cloneOnArrivalUnlocked = true;
     }
 
+    protected override void CheckUnlocked()
+    {
+        UnlockDash();
+        UnlockCloneOnDash();
+        UnlockCloneOnArrival();
+    }
+
     public void CloneOnDash()
     {
-        if (cloneOnDashUnlocked)
+        if (cloneOnDashUnlocked && SkillManager.instance != null && SkillManager.instance.clone != null)
         {
             SkillManager.instance.clone.CreatClone(player.transform, Vector3.zero);
         }
@@ -61,9 +69,11 @@ public class Dash_Skill : Skill
 
     public void CloneOnArrival()
     {
-        if (cloneOnArrivalUnlocked)
+        if (cloneOnArrivalUnlocked && SkillManager.instance != null && SkillManager.instance.clone != null)
         {
             SkillManager.instance.clone.CreatClone(player.transform, Vector3.zero);
         }
     }
+
+
 }

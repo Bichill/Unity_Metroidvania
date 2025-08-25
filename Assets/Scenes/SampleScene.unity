@@ -5239,7 +5239,7 @@ MonoBehaviour:
     baseValue: 10
     modifiers: 
   evasion:
-    baseValue: 100
+    baseValue: 0
     modifiers: 
   magicResistence:
     baseValue: 0
@@ -15159,9 +15159,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dd5fb009941fb934b8c331c74bd55c3a, type: 2}
   - {fileID: 11400000, guid: 783f31adf7cd5f4418f30b3e58ed4808, type: 2}
   - {fileID: 11400000, guid: 9a331c45db2388645ab0fe5864daf65f, type: 2}
-  - {fileID: 11400000, guid: 081ee56140205a44d966bd06902bc343, type: 2}
-  - {fileID: 11400000, guid: 42bcf43be6ee85e4d8e139835b914acc, type: 2}
   - {fileID: 11400000, guid: c736409efc2d30240867289e892d1e50, type: 2}
+  - {fileID: 11400000, guid: 42bcf43be6ee85e4d8e139835b914acc, type: 2}
+  - {fileID: 11400000, guid: 081ee56140205a44d966bd06902bc343, type: 2}
   equipment: []
   inventory: []
   stash: []
@@ -15170,6 +15170,8 @@ MonoBehaviour:
   equipmentSlotParent: {fileID: 132986705}
   statSlotParent: {fileID: 168484962}
   flaskCooldown: 0
+  loadedItems: []
+  loadedEquipment: []
 --- !u!4 &802965919
 Transform:
   m_ObjectHideFlags: 0
@@ -31912,7 +31914,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\u54C1\u8D28\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d7fd7e5f64d1dcf4680f778ae019aefe, type: 2}
   m_sharedMaterial: {fileID: -5896452014079727086, guid: d7fd7e5f64d1dcf4680f778ae019aefe, type: 2}
@@ -43600,8 +43602,7 @@ MonoBehaviour:
   unlocked: 0
   shouldBeUnlocked:
   - {fileID: 1983339586}
-  shouldBeLocked:
-  - {fileID: 2086791203}
+  shouldBeLocked: []
 --- !u!222 &2061332362
 CanvasRenderer:
   m_ObjectHideFlags: 0

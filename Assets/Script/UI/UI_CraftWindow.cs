@@ -7,12 +7,12 @@ using UnityEngine.UI;
 
 public class UI_CraftWindow : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI itemName;//è£å‚™åç¨±
-    [SerializeField] private TextMeshProUGUI itemDescription;//è£å‚™æè¿°
-    [SerializeField] private Image itemIcon;//è£å‚™icon
-    [SerializeField] private Button craftButton;//è£½ä½œæŒ‰éˆ•
+    [SerializeField] private TextMeshProUGUI itemName;//Ñb‚äÃû·Q
+    [SerializeField] private TextMeshProUGUI itemDescription;//Ñb‚äÃèÊö
+    [SerializeField] private Image itemIcon;//Ñb‚äicon
+    [SerializeField] private Button craftButton;//ºÏ³É°´âo
 
-    [SerializeField] private Image[] materialImage;//ææ–™åœ–ç‰‡
+    [SerializeField] private Image[] materialImage;//²ÄÁÏˆDÆ¬
 
     [Header("Equipment Quality")]
     [SerializeField] private TextMeshProUGUI itemQualityText;
@@ -22,14 +22,14 @@ public class UI_CraftWindow : MonoBehaviour
     {
         craftButton.onClick.RemoveAllListeners();
 
-        //åˆå§‹åŒ–è£å‚™çš„åœ–ç‰‡ã€åç¨±ã€æè¿°
+        //³õÊ¼»¯Ñb‚äµÄˆDÆ¬¡¢Ãû·Q¡¢ÃèÊö
         itemIcon.sprite = _data.icon;
         itemName.text = _data.itemName;
         itemDescription.text = _data.GetDescription();
 
         UesEquipmentQualityColor(_data);
 
-        //ç„¶å¾Œåˆå§‹åŒ–è£å‚™ææ–™
+        //È»áá³õÊ¼»¯Ñb‚ä²ÄÁÏ
         for (int i = 0; i < materialImage.Length; i++)
         {
             materialImage[i].color = Color.clear;
@@ -60,32 +60,32 @@ public class UI_CraftWindow : MonoBehaviour
     {
         if (_item.equipmentQuality == EquipmentQuality.ordinary)
         {
-            itemQualityText.text = "å“è´¨ï¼šå¹³å‡¡";
+            itemQualityText.text = "Æ·ÖÊ£ºÆÕÍ¨";
             itemQualityColor = Color.white;
         }
         else if (_item.equipmentQuality == EquipmentQuality.excellent)
         {
-            itemQualityText.text = "å“è´¨ï¼šä¼˜ç§€";
+            itemQualityText.text = "Æ·ÖÊ£ºÓÅĞã";
             itemQualityColor = Color.green;
         }
         else if (_item.equipmentQuality == EquipmentQuality.Sophisticated)
         {
-            itemQualityText.text = "å“è´¨ï¼šç²¾è‰¯";
+            itemQualityText.text = "Æ·ÖÊ£º¾«Á¼";
             itemQualityColor = Color.blue;
         }
         else if (_item.equipmentQuality == EquipmentQuality.epic)
         {
-            itemQualityText.text = "å“è´¨ï¼šå²è¯—";
+            itemQualityText.text = "Æ·ÖÊ£ºÊ·Ê«";
             itemQualityColor = Color.magenta;
         }
         else if (_item.equipmentQuality == EquipmentQuality.legend)
         {
-            itemQualityText.text = "å“è´¨ï¼šä¼ è¯´";
+            itemQualityText.text = "Æ·ÖÊ£º´«Ëµ";
             itemQualityColor = new Color(255, 223, 0);
         }
         else if (_item.equipmentQuality == EquipmentQuality.evilSpirits)
         {
-            itemQualityText.text = "å“è´¨ï¼šé‚ªçµ";
+            itemQualityText.text = "Æ·ÖÊ£ºĞ°Áé";
             itemQualityColor = Color.red;
         }
 

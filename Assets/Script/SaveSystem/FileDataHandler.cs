@@ -41,6 +41,7 @@ public class FileDataHandler
 
     public GameData Load()
     {
+        //自动组合路径
         string fullPath = Path.Combine(dataDirPath, dataFileName);
         GameData loadData = null;
 

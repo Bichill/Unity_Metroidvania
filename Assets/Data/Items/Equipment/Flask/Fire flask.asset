@@ -15,6 +15,7 @@ MonoBehaviour:
   itemType: 1
   itemName: "\u706B\u7130\u836F\u5242"
   icon: {fileID: 1282215044, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  itemId: 67ad2dceaaae46b4bb285e0480c62fcd
   dropChance: 100
   equipmentType: 3
   equipmentQuality: 3
@@ -37,7 +38,5 @@ MonoBehaviour:
   iceDamage: 0
   lightingDamage: 0
   craftingMaterials:
-  - data: {fileID: 11400000, guid: e3b2caa5a36a49c489a3454f2ae35fe2, type: 2}
-    stackSize: 1
   - data: {fileID: 11400000, guid: e3b2caa5a36a49c489a3454f2ae35fe2, type: 2}
     stackSize: 1

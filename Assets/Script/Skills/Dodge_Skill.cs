@@ -18,8 +18,10 @@ public class Dodge_Skill : Skill
     protected override void Start()
     {
         base.Start();
-        unlockDodgeButton.GetComponent<Button>().onClick.AddListener(UnlockDodge);
-        unlockMirageDodge.GetComponent<Button>().onClick.AddListener(UnlockMirageDodge);
+        // CheckUnlocked() 會在基類 Start() 中自動調用
+        
+        if (unlockDodgeButton) unlockDodgeButton.GetComponent<Button>()?.onClick.AddListener(UnlockDodge);
+        if (unlockMirageDodge) unlockMirageDodge.GetComponent<Button>()?.onClick.AddListener(UnlockMirageDodge);
     }
 
 
@@ -32,9 +34,27 @@ public class Dodge_Skill : Skill
         {
             isDodgeUnlocked = true;
 
-            player.stats.evasion.AddModifier(amountEvasionAdded);
-            Inventory.instance.UpdateStatsUI();
+            if (player != null && player.stats != null)
+            {
+                player.stats.evasion.AddModifier(amountEvasionAdded);
+            }
+            
+            // 使用協程延遲調用，確保 Inventory 完全初始化
+            StartCoroutine(DelayedUpdateStatsUI());
+            
             dodgeUnlocked = true;
+        }
+    }
+
+    private IEnumerator DelayedUpdateStatsUI()
+    {
+        // 等待一幀，確保 Inventory 的 Start() 方法已經執行
+        yield return null;
+        
+        // 再次檢查 Inventory 是否可用
+        if (Inventory.instance != null)
+        {
+            Inventory.instance.UpdateStatsUI();
         }
     }
 
@@ -44,9 +64,19 @@ public class Dodge_Skill : Skill
             dodgcMirageUnlocked = true;
     }
 
+    protected override void CheckUnlocked()
+    {
+        UnlockDodge();
+        UnlockMirageDodge();
+    }
+
     public void CreatMirageOnDodge()
     {
-        if(dodgcMirageUnlocked)
+        if(dodgcMirageUnlocked && SkillManager.instance != null && SkillManager.instance.clone != null)
+        {
             SkillManager.instance.clone.CreatClone(FindClosestEnemy(player.transform), Vector3.zero);
+        }
     }
+
+
 }

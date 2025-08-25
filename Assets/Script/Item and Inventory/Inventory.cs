@@ -1,48 +1,49 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.NCalc;
+using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Progress;  
 
-// é€™æ˜¯ä¸€å€‹é‚è¼¯é¡žï¼Œè² è²¬å¯¦ç¾é‚è¼¯åŠŸèƒ?
-// èªªæ˜Žï¼?
-// inventoryï¼ˆèƒŒåŒ…ï¼‰å’Œstashï¼ˆå€‰åº«ï¼‰ï¼Œå…©è€…éƒ½æ˜¯å­˜å„²InventoryItemçš„é›†åˆï¼Œä½†æ˜¯å­˜å„²çš„ç‰©å“é¡žåž‹ä¸åŒï¼ˆè£å‚™/ææ–™ï¼?
-// é€™æ¨£è¨­è¨ˆå¯ä»¥è®“çŽ©å®¶å€åˆ†è£å‚™å’Œææ–™ï¼Œåœ¨UIä¸­ä¹Ÿèƒ½æ–¹ä¾¿é¡¯ç¤?
-public class Inventory : MonoBehaviour
+// ß@ÊÇÒ»‚€±³°üÏµ½y£¬Ø“ØŸ¹ÜÀí±³°ü¹¦ÄÜ
+// ÕfÃ÷£º
+// inventory£¨±³°ü£©ºÍstash£¨‚}Žì£©£¬ƒÉÕß¶¼ÊÇ´æ·ÅInventoryItemµÄ¼¯ºÏ£¬µ«ÊÇ´æ·ÅµÄÎïÆ·îÐÍ²»Í¬£¨Ñb‚ä/²ÄÁÏ£©
+// ß@˜ÓÔOÓ‹¿ÉÒÔ×ŒÍæ¼Ò…^·ÖÑb‚äºÍ²ÄÁÏ£¬ÔÚUIÖÐÒ²ÄÜ·½±ãï@Ê¾
+public class Inventory : MonoBehaviour, ISaveManager
 {
-    // å–®ä¾‹æ¨¡å¼ï¼Œç¢ºä¿å…¨å±€å”¯ä¸€è¨ªå•
+    // †ÎÀýÄ£Ê½£¬´_±£È«¾ÖÎ¨Ò»ŒÀý
     public static Inventory instance;
 
     public List<ItemData> startingItem;
 
-    // è£å‚™ç›¸é—œï¼Œè£å‚™é‚è¼?
+    // Ñb‚äÏàêP£¬´æ·ÅÑb‚ä
     public List<InventoryItem> equipment;
     public Dictionary<ItemData_Equipment, InventoryItem> equipmentDictionary;
 
-    // èƒŒåŒ…ç›¸é—œï¼Œå­˜å„²è£å‚™é¡žç‰©å“
+    // ±³°üÏàêP£¬´æ·Å¸÷·NÎïÆ·
     public List<InventoryItem> inventory;
     public Dictionary<ItemData, InventoryItem> inventoryDictionary;
 
-    // å€‰åº«ï¼ˆstashï¼‰ï¼Œå­˜å„²ææ–™é¡žç‰©å“?
+    // ‚}Žì£¨stash£©£¬´æ·Å²ÄÁÏîÎïÆ·
     public List<InventoryItem> stash;
-    public Dictionary<ItemData,InventoryItem> stashDictionary;
+    public Dictionary<ItemData, InventoryItem> stashDictionary;
 
     [Header("Inventory UI")]
-    // inventorySlotParentï¼šèƒŒåŒ…UIçš„çˆ¶ç‰©é«”ï¼Œç”¨æ–¼ç®¡ç†èƒŒåŒ…æ ¼å­?
+    // inventorySlotParent£º±³°üUIµÄ¸¸Îï¼þ£¬ÓÃí¹ÜÀí±³°ü¸ñ×Ó
     [SerializeField] private Transform inventorySlotParent;
-    // stashSlotParentï¼šå€‰åº«UIçš„çˆ¶ç‰©é«”ï¼Œç”¨æ–¼ç®¡ç†å€‰åº«æ ¼å­
+    // stashSlotParent£º‚}ŽìUIµÄ¸¸Îï¼þ£¬ÓÃí¹ÜÀí‚}Žì¸ñ×Ó
     [SerializeField] private Transform stashSlotParent;
-    // equipmentSlotParent: è£å‚™UIçš„çˆ¶ç‰©é«”ï¼Œç”¨æ–¼ç®¡ç†è£å‚™æ ¼å­?
+    // equipmentSlotParent: Ñb‚äUIµÄ¸¸Îï¼þ£¬ÓÃí¹ÜÀíÑb‚ä¸ñ×Ó
     [SerializeField] private Transform equipmentSlotParent;
-    // statSlotParent: è§’è‰²ç‹€æ…‹UIçš„çˆ¶ç‰©é«”ï¼Œç”¨æ–¼ç®¡ç†è§’è‰²ç‹€æ…‹æ¬„
+    // statSlotParent: ½ÇÉ«ŒÙÐÔUIµÄ¸¸Îï¼þ£¬ÓÃí¹ÜÀíŒÙÐÔï@Ê¾
     [SerializeField] private Transform statSlotParent;
 
-    // inventoryItemSlotï¼šèƒŒåŒ…UIæ ¼å­çš„è…³æœ¬æ•¸çµ?
+    // inventoryItemSlot£º±³°üUI¸ñ×ÓµÄÒýÓÃ
     private UI_ItemSlot[] inventoryItemSlot;
-    // stashItemSlotï¼šå€‰åº«UIæ ¼å­çš„è…³æœ¬æ•¸çµ?
+    // stashItemSlot£º‚}ŽìUI¸ñ×ÓµÄÒýÓÃ
     private UI_ItemSlot[] stashItemSlot;
-    // equipmentItemSlotï¼šè£å‚™æ¬„UIæ ¼å­çš„è…³æœ¬æ•¸çµ?
+    // equipmentItemSlot£ºÑb‚äUI¸ñ×ÓµÄÒýÓÃ
     private UI_EquipmentSlot[] equipmentItemSlot;
-    // statItemSlotï¼šè§’è‰²ç‹€æ…‹UIæ ¼å­çš„è…³æœ¬æ•¸çµ?
+    // statItemSlot£ºŒÙÐÔUI¸ñ×ÓµÄÒýÓÃ
     private UI_StatSlot[] statItemSlot;
 
     [Header("Item Cooldown")]
@@ -51,10 +52,14 @@ public class Inventory : MonoBehaviour
 
     public float flaskCooldown;
     private float armorCooldown;
+
+    [Header("Data Base")]
+    public List<InventoryItem> loadedItems;//¶ÁÈ¡µÄ×°±¸Óë²ÄÁÏÁÐ±í
+    public List<ItemData_Equipment> loadedEquipment;//¶ÁÈ¡ÒÑ×°±¸µÄÁÐ±í
      
     private void Awake()
     {
-        // åˆå§‹åŒ–å–®ä¾‹ï¼Œç¢ºä¿å…¨å±€å”¯ä¸€
+        // ³õÊ¼»¯†ÎÀý£¬´_±£È«¾ÖÎ¨Ò»
         if (instance == null)
         {
             instance = this;
@@ -67,7 +72,7 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
-        // åˆå§‹åŒ–æ•¸æ“šçµæ§?
+        // ³õÊ¼»¯¸÷·NÁÐ±í
         inventory = new List<InventoryItem>();
         inventoryDictionary = new Dictionary<ItemData, InventoryItem>();
 
@@ -77,7 +82,7 @@ public class Inventory : MonoBehaviour
         equipment = new List<InventoryItem>();
         equipmentDictionary = new Dictionary<ItemData_Equipment, InventoryItem>();
 
-        // ç²å–èƒŒåŒ…å’Œå€‰åº«UIæ ¼å­çš„è…³æœ¬æ•¸çµ?
+        // «@È¡±³°üºÍ‚}ŽìUI¸ñ×ÓµÄÒýÓÃ
         inventoryItemSlot = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
         stashItemSlot = stashSlotParent.GetComponentsInChildren<UI_ItemSlot>();
         equipmentItemSlot = equipmentSlotParent.GetComponentsInChildren<UI_EquipmentSlot>();
@@ -88,14 +93,46 @@ public class Inventory : MonoBehaviour
 
     private void AddStartingItem()
     {
+        // Èç¹ûÓÐÒÑ¾­´©´÷µÄ×°±¸£¬Ìí¼Ó½øÈë×°±¸À¸
+        foreach (ItemData_Equipment item in loadedEquipment)
+        {
+            EquipItem(item);
+        }
+
+        // Èç¹ûÓÐÝdÈëµÄÎïÆ·£¬ƒžÏÈÌí¼ÓÝdÈëµÄÎïÆ·
+        if (loadedItems.Count > 0)
+        {
+            foreach (InventoryItem item in loadedItems)
+            {
+                for (int i = 0; i < item.stackSize; i++)
+                {
+                    AddItem(item.data);
+                }
+            }
+            return; // Èç¹ûÓÐÝdÈëµÄÎïÆ·£¬¾Í²»Ìí¼Ó³õÊ¼ÎïÆ·
+        }
+
+        // ™z²éÊÇ·ñÒÑ½›½oß^³õÊ¼Ñb‚ä£¨ÐèÒªÏÈ™z²é SaveManager ÊÇ·ñ´æÔÚ£©
+        if (SaveManager.instance != null && SaveManager.instance.GameData != null && SaveManager.instance.GameData.hasReceivedStartingItems)
+        {
+            return; // ÒÑ½›½oß^³õÊ¼Ñb‚ä£¬²»ÔÙÖØÑ}½o
+        }
+
+        // Ö»ÓÐÔÚ›]ÓÐÝdÈëÎïÆ·ÇÒ›]ÓÐ½oß^³õÊ¼Ñb‚ä•r£¬²ÅÌí¼Ó³õÊ¼Ñb‚ä
         for (int i = 0; i < startingItem.Count; i++)
         {
-            if (startingItem[i]!=null)
+            if (startingItem[i] != null)
                 AddItem(startingItem[i]);
+        }
+
+        // ˜ËÓ›ÒÑ½›½oß^³õÊ¼Ñb‚ä
+        if (SaveManager.instance != null && SaveManager.instance.GameData != null)
+        {
+            SaveManager.instance.GameData.hasReceivedStartingItems = true;
         }
     }
 
-    // è£å‚™å°ˆç”¨
+    // Ñb‚äÊ¹ÓÃ
     public void EquipItem(ItemData _item)
     {
         ItemData_Equipment newEquipment = _item as ItemData_Equipment;
@@ -103,84 +140,109 @@ public class Inventory : MonoBehaviour
 
         ItemData_Equipment itemByRepeated = null;
 
-        // æª¢æŸ¥ç•¶å‰è£å‚™æ¬„æ˜¯å¦æœ‰é‡è¤‡è£å‚™é¡žåž‹ï¼Œå¦‚æžœæœ‰å‰‡è¨˜éŒ„ä¸‹ä¾?
+        // ™z²é®”Ç°Ñb‚ä™ÚÊÇ·ñÓÐÖØÑ}Ñb‚äîÐÍ£¬Èç¹ûÓÐ¾ÍÐ¶ÏÂ
         foreach (KeyValuePair<ItemData_Equipment, InventoryItem> item in equipmentDictionary)
         {
             if (item.Key.equipmentType == newEquipment.equipmentType)
                 itemByRepeated = item.Key;
         }
 
-        // ç§»é™¤é‡è¤‡è£å‚™ï¼Œä¸¦æ”¾å›žèƒŒåŒ…
+        // ÒÆ³ýÖØÑ}Ñb‚ä£¬·Å»Ø±³°ü
         if (itemByRepeated != null)
         {
             UnequipItem(itemByRepeated);
             AddItem(itemByRepeated);
         }
 
-        equipment.Add(newItem);// è£å‚™æ–°è£å‚?
+        equipment.Add(newItem);// Ñb‚äÐÂÎïÆ·
         equipmentDictionary.Add(newEquipment, newItem);
-        newEquipment.AddModifiers();// æ·»åŠ è£å‚™å±¬æ€§åŠ æˆ?
+        newEquipment.AddModifiers();// Ìí¼ÓÑb‚äŒÙÐÔ¼Ó³É
 
-        RemoveItem(_item);// å¾žèƒŒåŒ…ç§»é™¤å·²è£å‚™çš„ç‰©å“?
+        RemoveItem(_item);// Ä±³°üÒÆ³ýÒÑÑb‚äµÄÎïÆ·
 
         UpdateSlotUI();
     }
 
-    // å¸ä¸‹è£å‚™ï¼Œç§»é™¤è£å‚?
+    // Ð¶ÏÂÑb‚ä£¬ÒÆ³ýÑb‚ä
     public void UnequipItem(ItemData_Equipment _itemToRemove)
     {
         if (equipmentDictionary.TryGetValue(_itemToRemove, out InventoryItem value))
         {
             equipment.Remove(value);
             equipmentDictionary.Remove(_itemToRemove);
-            _itemToRemove.RemoveModifiers(); // ç§»é™¤è£å‚™å±¬æ€§åŠ æˆ?
+            _itemToRemove.RemoveModifiers(); // ÒÆ³ýÑb‚äŒÙÐÔ¼Ó³É
         }
     }
 
-    // åˆ·æ–°UIé¡¯ç¤º
+    // Ë¢ÐÂUIï@Ê¾
     private void UpdateSlotUI()
     {
-        // åˆªé™¤åŽŸæœ‰å€‰åº«å’ŒèƒŒåŒ…UI
+        // Ìí¼Ó¿ÕÖµ™z²é£¬±ÜÃâÔÚ³õÊ¼»¯ß^³ÌÖÐÕ{ÓÃ•r³öåe
+        if (inventoryItemSlot == null || stashItemSlot == null || equipmentItemSlot == null)
+        {
+            Debug.LogWarning("UI slots are not initialized yet, skipping UpdateSlotUI");
+            return;
+        }
+
+        // Çå³ýÔ­ÓÐ‚}ŽìºÍ±³°üUI
         for (int i = 0; i < inventoryItemSlot.Length; i++)
         {
-            // æŽ’é™¤åˆæˆæ ¼å­
+            // ÅÅ³ýºÏ³É¸ñ×Ó
             if (inventoryItemSlot[i] is UI_CraftSlot)
                 continue;
+            if (inventoryItemSlot[i] != null)
+            {
             inventoryItemSlot[i].CleanUpSlot();
+            }
         }
 
         for (int i = 0; i < stashItemSlot.Length; i++)
         {
-            // æŽ’é™¤åˆæˆæ ¼å­
+            // ÅÅ³ýºÏ³É¸ñ×Ó
             if (stashItemSlot[i] is UI_CraftSlot)
                 continue;
+            if (stashItemSlot[i] != null)
+            {
             stashItemSlot[i].CleanUpSlot();
+            }
         }
 
         for (int i = 0; i < equipmentItemSlot.Length; i++)
         {
+            if (equipmentItemSlot[i] != null)
+        {
             equipmentItemSlot[i].CleanUpSlot();
+            }
         }
 
-        // æ›´æ–°æ–°çš„å€‰åº«å’ŒèƒŒåŒ…UI
+        // ¸üÐÂÐÂµÄ‚}ŽìºÍ±³°üUI
         for (int i = 0; i < inventory.Count; i++)
         {
+            if (i < inventoryItemSlot.Length && inventoryItemSlot[i] != null)
+        {
             inventoryItemSlot[i].UpdateSlot(inventory[i]);
+            }
         }
 
         for (int i = 0; i < stash.Count; i++)
         {
+            if (i < stashItemSlot.Length && stashItemSlot[i] != null)
+        {
             stashItemSlot[i].UpdateSlot(stash[i]);
+            }
         }
 
-        // ç¢ºä¿è£å‚™é¡¯ç¤ºåœ¨å°æ‡‰çš„è£å‚™æ¬?
+        // ´_±£Ñb‚äï@Ê¾ÔÚŒ¦‘ªµÄÑb‚ä™Ú
         for (int i = 0; i < equipmentItemSlot.Length; i++)
         {
-            foreach (KeyValuePair<ItemData_Equipment, InventoryItem> item in equipmentDictionary)
+            if (equipmentItemSlot[i] != null)
             {
+                foreach (KeyValuePair<ItemData_Equipment, InventoryItem> item in equipmentDictionary)
+                {
                 if (item.Key.equipmentType == equipmentItemSlot[i].slotType)
                 {
                     equipmentItemSlot[i].UpdateSlot(item.Value);
+                    }
                 }
             }
         }
@@ -190,19 +252,29 @@ public class Inventory : MonoBehaviour
 
     public void UpdateStatsUI()
     {
+        // Ìí¼Ó¿ÕÖµ™z²é£¬±ÜÃâÔÚ³õÊ¼»¯ß^³ÌÖÐÕ{ÓÃ•r³öåe
+        if (statItemSlot == null || statItemSlot.Length == 0)
+        {
+            Debug.LogWarning("statItemSlot is not initialized yet, skipping UpdateStatsUI");
+            return;
+        }
+
         for (int i = 0; i < statItemSlot.Length; i++)
         {
+            if (statItemSlot[i] != null)
+        {
             statItemSlot[i].UpdateStatValueUI();
+            }
         }
     }
 
-    // æ·»åŠ ç‰©å“ï¼Œå€åˆ†èƒŒåŒ…å’Œå€‰åº«
+    // Ìí¼ÓÎïÆ·£¬…^·Ö±³°üºÍ‚}Žì
     public void AddItem(ItemData _item)
     {
-        if(_item.itemType == ItemType.Equipment && CanAddItem())
-            AddToInventory(_item); // è£å‚™æ”¾å…¥èƒŒåŒ…
+        if (_item.itemType == ItemType.Equipment && CanAddItem())
+            AddToInventory(_item); // Ñb‚ä·ÅÈë±³°ü
         else if (_item.itemType == ItemType.Material)
-            AddToStash(_item);     // ææ–™æ”¾å…¥å€‰åº«
+            AddToStash(_item);     // ²ÄÁÏ·ÅÈë‚}Žì
         
         UpdateSlotUI();
     }
@@ -287,10 +359,10 @@ public class Inventory : MonoBehaviour
     }
 
 
-    // æª¢æŸ¥è¦åˆæˆçš„è£å‚™ï¼Œæª¢æŸ¥ææ–™è¡¨
+    // ™z²éÒªºÏ³ÉµÄÑb‚ä£¬™z²é²ÄÁÏ±í
     public bool CanCraft(ItemData_Equipment _itemToCraft, List<InventoryItem> _requiredMaterials)
     {
-        // æª¢æŸ¥è¼¸å…¥åƒæ•¸
+        // ™z²éÝ”Èë…¢”µ
         if (_itemToCraft == null)
         {
             Debug.LogError("ItemData_Equipment is null in CanCraft");
@@ -315,39 +387,39 @@ public class Inventory : MonoBehaviour
 
             if (stashDictionary.TryGetValue(_requiredMaterials[i].data, out InventoryItem stashValue))
             {
-                // æª¢æŸ¥å€‰åº«æ˜¯å¦æœ‰è¶³å¤ çš„ææ–™
+                // ™z²é‚}ŽìÊÇ·ñÓÐ×ã‰òµÄ²ÄÁÏ
                 if (stashValue.stackSize < _requiredMaterials[i].stackSize)
                 {
                     Debug.Log("Crafting failed: Not enough materials in stash.");
-                    return false; // ææ–™ä¸è¶³ï¼Œç„¡æ³•åˆæˆ?
+                    return false; // ²ÄÁÏ²»×ã£¬Ÿo·¨ºÏ³É
                 }
                 else
                 {
-                    materialsToRemove.Add(stashValue); // è¨˜éŒ„éœ€è¦ç§»é™¤çš„ææ–™
+                    materialsToRemove.Add(stashValue); // Ó›ä›ÐèÒªÒÆ³ýµÄ²ÄÁÏ
                 } 
             }
             else
             {
                 Debug.Log("Crafting failed: Missing required materials.");
-                return false; // ç¼ºå°‘ææ–™ï¼Œç„¡æ³•åˆæˆ?
+                return false; // È±ÉÙ²ÄÁÏ£¬Ÿo·¨ºÏ³É
             }   
         }
 
-        // æ‰€æœ‰ææ–™éƒ½æ»¿è¶³è¦æ±‚ï¼Œé€²è¡Œåˆæˆ
+        // ËùÓÐ²ÄÁÏ¶¼M×ãÒªÇó£¬é_Ê¼ºÏ³É
         for (int i = 0; i < materialsToRemove.Count; i++)
         {
-            RemoveItem(materialsToRemove[i].data); // å¾žå€‰åº«ä¸­ç§»é™¤ææ–?
+            RemoveItem(materialsToRemove[i].data); // Ä‚}ŽìÖÐÒÆ³ý²ÄÁÏ
         }
 
-        // å°‡åˆæˆçš„è£å‚™æ·»åŠ åˆ°èƒŒåŒ?
+        // Œ¢ºÏ³ÉµÄÑb‚äÌí¼Óµ½±³°ü
         AddItem(_itemToCraft);
         Debug.Log("Crafting successful: " + _itemToCraft.name);
 
-        return true; // åˆæˆæˆåŠŸ
+        return true; // ºÏ³É³É¹¦
     }
 
-    public List<InventoryItem> GetStashList() => stash;// è¿”å›žå€‰åº«
-    public List<InventoryItem> GetInventoryList() => inventory;// è¿”å›žèƒŒåŒ…
+    public List<InventoryItem> GetStashList() => stash;// ·µ»Ø‚}Žì
+    public List<InventoryItem> GetInventoryList() => inventory;// ·µ»Ø±³°ü
 
     public ItemData_Equipment GetEquipment(EquipmentType _type)
     {
@@ -412,15 +484,92 @@ public class Inventory : MonoBehaviour
 
         if (currentFlask == null)
             return;
-        // åŸ·è¡Œè—¥æ°´æ•ˆæžœ
+        // Ê©·ÅËŽË®Ð§¹û
         currentFlask.Effect(null);
 
-        // ä½¿ç”¨å¾Œç«‹å³ç§»é™¤è—¥æ°´ï¼ˆä¸€æ¬¡æ€§ä½¿ç”¨ï¼‰
+        // Ê¹ÓÃááÁ¢¼´ÒÆ³ýËŽË®£¨Ò»´ÎÐÔÊ¹ÓÃ£©
         UnequipItem(currentFlask);
 
-        // æ›´æ–°UIé¡¯ç¤º
+        // ¸üÐÂUIï@Ê¾
         UpdateSlotUI();
 
         Debug.Log("Flask used and consumed: " + currentFlask.itemName);
+    }
+
+
+    //´æµµ×°±¸
+    public void SaveData(ref GameData _data)
+    {
+        _data.inventory.Clear();
+        _data.equipmentId.Clear();
+
+        foreach (KeyValuePair<ItemData, InventoryItem> pair in inventoryDictionary)
+        {
+            _data.inventory.Add(pair.Key.itemId, pair.Value.stackSize);
+        }
+
+        foreach (KeyValuePair<ItemData, InventoryItem> pair in stashDictionary)
+        {
+            _data.inventory.Add(pair.Key.itemId, pair.Value.stackSize);
+        }
+
+        foreach (KeyValuePair<ItemData_Equipment, InventoryItem> pair in equipmentDictionary)
+        {
+            _data.equipmentId.Add(pair.Key.itemId);
+        }
+    }
+
+    // ÔØÈë×°±¸
+    public void LoadData(GameData _data)
+    {
+        foreach (KeyValuePair<string, int> pair in _data.inventory)
+        {
+            foreach (var item in GetItemDataBase())
+            {
+                if (item != null && item.itemId == pair.Key)
+                {
+                    InventoryItem itemToLoad = new InventoryItem(item);
+                    itemToLoad.stackSize = pair.Value;
+
+                    loadedItems.Add(itemToLoad);
+                }
+            }
+        }
+
+        //¸ù¾Ý¼ÇÂ¼µÄÒÑ´©´÷×°±¸ID¸½¼Ó×°±¸²Û×°±¸
+        foreach (string loadedItemId in _data.equipmentId)
+        {
+            foreach (var item in GetItemDataBase())
+            {
+                if (item != null && loadedItemId == item.itemId)
+                {
+                    loadedEquipment.Add(item as ItemData_Equipment);
+                }
+            }
+        }
+
+    }
+
+    // »ñÈ¡ÎïÆ·Í¼¼ø¡ª¡ªAsset/Data/ItemsÖÐËùÓÐÎïÆ·µÄÐÅÏ¢
+    // ×¢ÒâÕâ²»ÊÇ´æµµ
+    private List<ItemData> GetItemDataBase()
+    {
+        List<ItemData> itemDataBase = new List<ItemData>();
+        string[] assetNames = AssetDatabase.FindAssets("t:ItemData", new[] { "Assets/Data/Items" });
+        foreach (string SOName in assetNames)
+        {
+            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
+            // ™z²éÂ·½ÊÇ·ñžéÎÄ¼þ£¨²»ÊÇÎÄ¼þŠA£©
+            if (!SOpath.EndsWith("/") && !System.IO.Directory.Exists(SOpath))
+            {
+                var itemData = AssetDatabase.LoadAssetAtPath<ItemData>(SOpath);
+                if (itemData != null)
+                {
+                    itemDataBase.Add(itemData);
+                }
+            }
+        }
+        
+        return itemDataBase;
     }
 }

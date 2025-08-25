@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +7,13 @@ public class Skill : MonoBehaviour
 {
     public float cooldown;
     protected float cooldownTimer;
-    
+
     protected Player player;
 
-    protected virtual void Start() 
+    protected virtual void Start()
     {
         player = PlayerManager.instance.player;
+        CheckUnlocked(); // 在 Start 中調用解鎖檢查
     }
 
     protected virtual void Update()
@@ -27,8 +29,14 @@ public class Skill : MonoBehaviour
             cooldownTimer = cooldown;
             return true;
         }
-    
+
         return false;
+    }
+
+    // 用于检查技能是否解锁，子类可以重写此方法
+    protected virtual void CheckUnlocked()
+    {
+
     }
 
     public virtual void UseSkill()

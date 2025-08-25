@@ -17,11 +17,11 @@ public class UI_EquipmentSlot : UI_ItemSlot
         if(eventData == null)
             return;
         
-        // æª¢æŸ¥æ˜¯å¦æœ‰è£å‚™å¯ä»¥å¸ä¸‹
+        // ™z²éÊÇ·ñÓĞÑb‚ä¿ÉÒÔĞ¶ÏÂ
         if (item == null || item.data == null)
             return;
             
-        // å¸ä¸‹è£å‚™ä¸¦æ·»åŠ åˆ°èƒŒåŒ…
+        // Ğ¶ÏÂÑb‚äKÌí¼Óµ½±³°ü
         ItemData_Equipment equipmentToUnequip = item.data as ItemData_Equipment;
         if (equipmentToUnequip != null)
         {
