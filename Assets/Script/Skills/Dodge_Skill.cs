@@ -39,9 +39,6 @@ public class Dodge_Skill : Skill
                 player.stats.evasion.AddModifier(amountEvasionAdded);
             }
             
-            // 使用協程延遲調用，確保 Inventory 完全初始化
-            StartCoroutine(DelayedUpdateStatsUI());
-            
             dodgeUnlocked = true;
         }
     }
@@ -77,6 +74,4 @@ public class Dodge_Skill : Skill
             SkillManager.instance.clone.CreatClone(FindClosestEnemy(player.transform), Vector3.zero);
         }
     }
-
-
 }

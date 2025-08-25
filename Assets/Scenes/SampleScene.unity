@@ -44005,8 +44005,7 @@ MonoBehaviour:
   unlocked: 0
   shouldBeUnlocked:
   - {fileID: 566856033}
-  shouldBeLocked:
-  - {fileID: 2061332361}
+  shouldBeLocked: []
 --- !u!222 &2086791204
 CanvasRenderer:
   m_ObjectHideFlags: 0
