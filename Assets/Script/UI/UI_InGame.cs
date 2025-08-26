@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,8 +29,6 @@ public class UI_InGame : MonoBehaviour
     [SerializeField] private GameObject blackholeObject;
     [SerializeField] private GameObject flaskObject;
 
-
-
     private SkillManager skills;
 
     private void Start()
@@ -55,12 +54,17 @@ public class UI_InGame : MonoBehaviour
         CheckUIInput();
         CheckSkillPoint();
 
-        CheckCooldownOf(dashImage, skills.dash.cooldown);
-        CheckCooldownOf(parryImage, skills.parry.cooldown);
-        CheckCooldownOf(crystalImage, skills.crystal.cooldown);
-        CheckCooldownOf(swordImage, skills.sword.cooldown);
-        CheckCooldownOf(blackholeImage, skills.blackHole.cooldown);
-        CheckCooldownOf(flaskImage, Inventory.instance.flaskCooldown);
+        CheckCooldownOf(dashImage, skills.dash.cooldown,skills.dash.cooldownTimer);
+        CheckCooldownOf(parryImage, skills.parry.cooldown, skills.parry.cooldownTimer);
+        CheckCooldownOf(crystalImage, skills.crystal.cooldown, skills.crystal.cooldownTimer);
+        CheckCooldownOf(swordImage, skills.sword.cooldown, skills.sword.cooldownTimer);
+        CheckCooldownOf(blackholeImage, skills.blackHole.cooldown, skills.blackHole.cooldownTimer);
+
+        //药水做特殊处理
+        if (flaskImage.fillAmount > 0 && flaskImage!=null)
+        {
+            flaskImage.fillAmount -= 1 / Inventory.instance.flaskCooldown;
+        }
     }
 
     private void CheckUIInput()
@@ -89,7 +93,7 @@ public class UI_InGame : MonoBehaviour
         if (skills.sword.swordUnlocked)
         {
             swordObject.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.Mouse1))
+            if (Input.GetKeyUp(KeyCode.Mouse1))
                 SetCooldownOf(swordImage);
         }
         if (skills.blackHole.blackHoleUnlocked)
@@ -137,11 +141,11 @@ public class UI_InGame : MonoBehaviour
         }
     }
 
-    private void CheckCooldownOf(Image _image,float _cooldown)
+    private void CheckCooldownOf(Image _image,float _cooldown,float _cooldownTimer)
     {
         if (_image.fillAmount > 0)
         {
-            _image.fillAmount -= 1 / _cooldown * Time.deltaTime; 
+            _image.fillAmount = _cooldownTimer / _cooldown; 
         }
     }
 

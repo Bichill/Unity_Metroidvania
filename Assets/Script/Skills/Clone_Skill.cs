@@ -102,8 +102,8 @@ public class Clone_Skill : Skill
         if (crystalInsteadOfClone)
         {
             if (SkillManager.instance != null && SkillManager.instance.crystal != null)
-        {
-            SkillManager.instance.crystal.CreateCrystal(true);//替换克隆体出现的水晶无法换位
+            {
+                SkillManager.instance.crystal.CreateCrystal(true);//替换克隆体出现的水晶无法换位
             }
             return;
         }

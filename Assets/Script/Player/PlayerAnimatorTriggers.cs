@@ -36,6 +36,9 @@ public class PlayerAnimatorTriggers : MonoBehaviour
 
     private void ThordSword()
     {
-        SkillManager.instance.sword.CreatSword();
+        if (SkillManager.instance.sword.CanUseSkill())
+        {
+            SkillManager.instance.sword.CreatSword();
+        }
     }
 }

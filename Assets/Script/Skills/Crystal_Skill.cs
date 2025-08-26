@@ -63,17 +63,9 @@ public class Crystal_Skill : Skill
 
     public override bool CanUseSkill()
     {
-        // 檢查是否已解鎖
-        if (!crystalUnlocked)
-        {
-            Debug.Log("Crystal skill not unlocked!");
-            return false;
-        }
-
-        // 如果是多重水晶模式，使用特殊的冷却机制
+        // 多重水晶模式：不走通用冷卻
         if (crystalMultiUnlocked)
         {
-            // 多重水晶模式：只要有水晶就可以发射，没有冷却限制
             if (crystalLeft.Count > 0)
             {
                 UseSkill();
@@ -82,15 +74,8 @@ public class Crystal_Skill : Skill
             return false;
         }
         
-        // 普通模式：使用基础的冷却机制
-        if (cooldownTimer < 0)
-        {
-            UseSkill();
-            cooldownTimer = cooldown;
-            return true;
-        }
-    
-        return false;
+        // 普通模式：回退為基類冷卻邏輯
+        return base.CanUseSkill();
     }
 
     //技能解锁区域

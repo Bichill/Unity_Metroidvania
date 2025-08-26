@@ -16,7 +16,7 @@ public class Sword_Skill : Skill
 
     [Header("Skill info")]
     [SerializeField] private UI_SkillTreeSlot unlockSwordButton;
-    public bool swordUnlocked { get; private set;}
+    public bool swordUnlocked { get; private set;}  
     [SerializeField] private GameObject swordPrefab;
     [SerializeField] private Vector2 launchForce;
     [SerializeField] private float swordGravity;
@@ -95,7 +95,8 @@ public class Sword_Skill : Skill
 
     protected override void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Mouse1))
+        base.Update();
+        if (Input.GetKey(KeyCode.Mouse1) && player.stateMachine.currentState is PlayerAimSwordState)
         {
             finalDir = new Vector2(AimDirection().normalized.x * launchForce.x, AimDirection().normalized.y * launchForce.y);
         }

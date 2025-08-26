@@ -18,7 +18,7 @@ public class BlackHole_Skill : Skill
 
 
     public override bool CanUseSkill()
-    {   
+    {
         if (!blackHoleUnlocked) return false;
         Debug.Log("BlackHole Skill Locked");
         return base.CanUseSkill();
