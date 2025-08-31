@@ -1,17 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
+    [Header("End Screen")]
+    [SerializeField] private UI_FadeScreen fadeScreen;
+    [SerializeField] private GameObject endText;
+    [Space]
+
     [SerializeField] private GameObject characterUI;
     [SerializeField] private GameObject skillTreeUI;
     [SerializeField] private GameObject craftUI;
     [SerializeField] private GameObject optionsUI;
     [SerializeField] private GameObject inGameUI;
-    
+
     [Space]
     public UI_SkillToolTip skillToolTip;
     public UI_ItemToolTip itemToolTip;
@@ -43,19 +48,23 @@ public class UI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
             SwitchWithKeyTo(skillTreeUI);
-        
+
         if (Input.GetKeyDown(KeyCode.Alpha3))
             SwitchWithKeyTo(craftUI);
-        
+
         if (Input.GetKeyDown(KeyCode.Alpha4))
-            SwitchWithKeyTo(optionsUI); 
+            SwitchWithKeyTo(optionsUI);
     }
 
     public void SwitchTo(GameObject _menu)
     {
+
         for (int i = 0; i < transform.childCount; i++)
         {
-            transform.GetChild(i).gameObject.SetActive(false);
+            bool fadeScreen = transform.GetChild(i).GetComponent<UI_FadeScreen>() != null;// 需要这个来保持淡入效果的有效
+
+            if (fadeScreen == false)
+                transform.GetChild(i).gameObject.SetActive(false);
         }
 
         if (_menu != null)
@@ -85,5 +94,19 @@ public class UI : MonoBehaviour
         }
 
         SwitchTo(inGameUI);
+    }
+
+    public void SwitchOnEndScreen()
+    {
+        SwitchTo(null);
+        fadeScreen.FadeOut();
+        StartCoroutine(EndScreenCorutione());
+    }
+
+    IEnumerator EndScreenCorutione()
+    {
+        yield return new WaitForSeconds(2);
+
+        endText.SetActive(true);
     }
 }

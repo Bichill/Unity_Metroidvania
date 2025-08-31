@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.IO.LowLevel.Unsafe;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SaveManager : MonoBehaviour
@@ -18,7 +19,7 @@ public class SaveManager : MonoBehaviour
     public GameData GameData => gameData;
 
     [ContextMenu("Delete save file")]
-    private void DeleteSaveData()
+    public void DeleteSaveData()
     {
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, encryptData);
         dataHandler.Delete();
@@ -87,6 +88,15 @@ public class SaveManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         SaveGame();
+    }
+
+    public bool HasSaveData()
+    {
+        if (dataHandler.Load() != null)
+        {
+            return true;
+        }
+        return false;
     }
 
     private List<ISaveManager> FindAllSaveManagers()
