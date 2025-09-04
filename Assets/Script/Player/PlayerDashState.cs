@@ -18,6 +18,7 @@ public class PlayerDashState : PlayerState
         player.skill.dash.CloneOnDash();
         stateTimer = player.dashDuration;
         player.isInvincible = true;
+        player.comboInAirCount = 3;
     }
 
     public override void Exit()

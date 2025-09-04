@@ -22,6 +22,10 @@ public class PlayerAirState : PlayerState
     {
         base.Update();
 
+        if (Input.GetKeyDown(KeyCode.J) && player.comboInAirCount > 0)
+        {
+            stateMachine.ChangeState(player.primaryAttack);
+        }
         if (Input.GetKeyDown(KeyCode.R) && SkillManager.instance.blackHole.CanUseSkill())
         {
             stateMachine.ChangeState(player.blackHole);

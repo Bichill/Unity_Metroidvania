@@ -28,4 +28,6 @@ public class Enemy_SkeletonAnimationTrigger : MonoBehaviour
 
     private void OpenCounterWindow() => enemy.OpenCounterAttackWindow();
     private void CloseCounterWindow() => enemy.CloseCounterAttackWindow();
+
+    private void AttackSourceEffect() => AudioManager.instance.PlaySFX(10, transform, 1, 0.3f);
 }

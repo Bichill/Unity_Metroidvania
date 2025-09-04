@@ -15,6 +15,7 @@ MonoBehaviour:
   itemType: 1
   itemName: "\u51B0\u4E0E\u706B\u4E4B\u6B4C"
   icon: {fileID: 1398721256, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  itemId: 366b4d24dd3a0884d8b8bee15de0d672
   dropChance: 100
   equipmentType: 0
   equipmentQuality: 1
@@ -23,7 +24,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 17a60f62aa8e4ef4bbbb63aaad3f8d24, type: 2}
   - {fileID: 11400000, guid: 917fa8d7681ca8740bbaa4cc8cd46ea8, type: 2}
   - {fileID: 11400000, guid: bfb51e8caec863746ac12396dc508a56, type: 2}
-  effectDescription: "\u7B2C\u4E09\u6B21\u653B\u51FB\u51FB\u4E2D\u654C\u4EBA\u5236\u9020\u706B\u7130/\u5BD2\u51B0\u5200\u5149\u98CE\u66B4\uFF0C\u9020\u6210\u5DE8\u989D\u4F24\u5BB3\uFF08\u6B64\u8BCD\u6761\u65E0\u6CD5\u5E94\u7528\u4E8E\u5E7B\u5F71\uFF09"
+  effectDescription: "\u7B2C\u4E09\u6B21\u653B\u51FB\u51FB\u4E2D\u654C\u4EBA\u5236\u9020\u706B\u7130/\u5BD2\u51B0\u5200\u5149\u98CE\u66B4\uFF0C\u9020\u6210\u5DE8\u989D\u4F24\u5BB3"
   strength: 0
   agility: 0
   intelligence: 0

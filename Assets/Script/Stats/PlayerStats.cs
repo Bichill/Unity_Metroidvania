@@ -21,13 +21,20 @@ public class PlayerStats : CharacterStats
     public override void TakeDamage(int _damage)
     {
         base.TakeDamage(_damage);
+
+        StartCoroutine(delayPlaySFX());
     }
 
     protected override void Die()
     {
         base.Die();
-
         player.Die();
+
+        GameManager.instance.lostCurrencyAmount = PlayerManager.instance.currency;
+        PlayerManager.instance.currency = 0;
+        GameManager.instance.isPickedUpLostCurrency = false;
+        AudioManager.instance.PlaySFX(15, transform, 1, 1f);
+
         GetComponent<PlayerItemDrop>().GenerateDrop();
     }
 
@@ -79,5 +86,12 @@ public class PlayerStats : CharacterStats
         newBladeLight.transform.right = player.facingDir * Vector3.right;
 
         newBladeLight.GetComponent<GhostWindbreaker_Controller>().Setup(player.stats.damage.GetValue());
+    }
+
+    private IEnumerator delayPlaySFX()
+    {
+        AudioManager.instance.PlaySFX(16, transform, Random.Range(1, 1.3f), 0.7f);
+
+        yield return new WaitForSeconds(1f);
     }
 }

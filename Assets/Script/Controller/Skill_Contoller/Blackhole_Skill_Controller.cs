@@ -35,6 +35,7 @@ public class Blackhole_Skill_Controller : MonoBehaviour
         amountOfAttacks = _amountOfAttack;
         cloneAttackCooldown = _cloneAttackCooldown;
         timeOutTimer = _timeOutTimer;
+        AudioManager.instance.PlaySFX(4, transform, 1f, 0.8f);
     }
 
     private void Update()

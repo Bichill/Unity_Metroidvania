@@ -53,7 +53,11 @@ public class UI_CraftWindow : MonoBehaviour
             materialText.color = Color.white;
         }
 
-        craftButton.onClick.AddListener(() => Inventory.instance.CanCraft(_data, _data.craftingMaterials));
+        craftButton.onClick.AddListener(() => {
+            int sfxIndex;
+            sfxIndex = Inventory.instance.CanCraft(_data, _data.craftingMaterials) == true ? 7 : 0;
+            AudioManager.instance.PlaySFX(sfxIndex, null, 1, 1);
+        });
     }
 
     private void UesEquipmentQualityColor(ItemData_Equipment _item)

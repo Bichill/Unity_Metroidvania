@@ -12,11 +12,15 @@ public class PlayerMoveState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
+
+        AudioManager.instance.PlaySFX(9, player.transform, 1.1f, 2f);
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        AudioManager.instance.StopSFX(9);
     }
     
     public override void Update()

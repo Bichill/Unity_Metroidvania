@@ -23,6 +23,7 @@ public class GhostWindbreaker_Controller : MonoBehaviour
 
 	private void AttackAllEnemiesInRange()
 	{
+		AudioManager.instance.PlaySFX(19, transform, 1.3f, 1);
 		// 使用矩形盒碰撞檢測長方形範圍內的所有碰撞體
 		Vector2 center = transform.position;
 		Vector2 size = new Vector2(attackLongth, attackWidth);

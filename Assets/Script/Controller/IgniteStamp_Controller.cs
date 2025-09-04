@@ -15,6 +15,7 @@ public class IgniteStamp_Controller : MonoBehaviour
 
     public void Setup(CharacterStats _targetStats)
     {
+        AudioManager.instance.PlaySFX(12, transform, 0.7f, 0.1f);
         targetStats = _targetStats;
     }
 

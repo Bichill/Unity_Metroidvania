@@ -7,7 +7,7 @@ public class BladeLight_Controller: MonoBehaviour
     private Animator anim;
     private int damage;
     private int randomNum;
-    private float hitCooldown = 0.3f;
+    private float hitCooldown = 0.15f;
     private float hitTimer;
     [SerializeField] private float attackRadius = 2f; // 攻擊範圍
     [SerializeField] private float attackMultiplier; // 攻擊傷害倍率
@@ -19,7 +19,7 @@ public class BladeLight_Controller: MonoBehaviour
         {
             anim.SetInteger("randomNum", randomNum);
         }
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 0.3f);
     }
 
     public void Setup(int _damage, int _randomNum)
@@ -42,6 +42,8 @@ public class BladeLight_Controller: MonoBehaviour
 
     private void AttackAllEnemiesInRange()
     {
+        AudioManager.instance.PlaySFX(20, transform, Random.Range(1, 1.2f), 1f);
+
         // 檢測範圍內的所有碰撞體
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, attackRadius);
 

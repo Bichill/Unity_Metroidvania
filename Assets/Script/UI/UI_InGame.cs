@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 using TMPro;
 using Unity.VisualScripting;
@@ -19,9 +20,6 @@ public class UI_InGame : MonoBehaviour
     [SerializeField] private Image flaskImage;
 
     [Space]
-    [SerializeField] private TextMeshProUGUI currentSkillPoint;
-
-    [Space]
     [SerializeField] private GameObject dashObject;
     [SerializeField] private GameObject parryObject;
     [SerializeField] private GameObject crystalObject;
@@ -31,10 +29,14 @@ public class UI_InGame : MonoBehaviour
 
     private SkillManager skills;
 
+    [Header("Souls info")]
+    [SerializeField] private TextMeshProUGUI currentSkillPoint;
+    [SerializeField] private float skillpointAmount;
+    [SerializeField] private float increaseRate = 100f;
+
     private void Start()
     {
         skills = SkillManager.instance;
-        CheckSkillPoint();
         
         if (playerStats != null)
         {
@@ -51,20 +53,30 @@ public class UI_InGame : MonoBehaviour
 
     private void Update()
     {
+        UpdateSkillpoint();
         CheckUIInput();
-        CheckSkillPoint();
 
-        CheckCooldownOf(dashImage, skills.dash.cooldown,skills.dash.cooldownTimer);
+        CheckCooldownOf(dashImage, skills.dash.cooldown, skills.dash.cooldownTimer);
         CheckCooldownOf(parryImage, skills.parry.cooldown, skills.parry.cooldownTimer);
         CheckCooldownOf(crystalImage, skills.crystal.cooldown, skills.crystal.cooldownTimer);
         CheckCooldownOf(swordImage, skills.sword.cooldown, skills.sword.cooldownTimer);
         CheckCooldownOf(blackholeImage, skills.blackHole.cooldown, skills.blackHole.cooldownTimer);
 
         //药水做特殊处理
-        if (flaskImage.fillAmount > 0 && flaskImage!=null)
+        if (flaskImage.fillAmount > 0 && flaskImage != null)
         {
-            flaskImage.fillAmount -= 1 / Inventory.instance.flaskCooldown;
+            flaskImage.fillAmount -= 1 / Inventory.instance.flaskCooldown * Time.deltaTime;
         }
+    }
+
+    private void UpdateSkillpoint()
+    {
+        if (skillpointAmount < PlayerManager.instance.GetCurrencyAmount())
+            skillpointAmount += Time.deltaTime * increaseRate;
+        else
+            skillpointAmount = PlayerManager.instance.GetCurrencyAmount();
+
+        currentSkillPoint.text = ((int)skillpointAmount).ToString();
     }
 
     private void CheckUIInput()
@@ -147,10 +159,5 @@ public class UI_InGame : MonoBehaviour
         {
             _image.fillAmount = _cooldownTimer / _cooldown; 
         }
-    }
-
-    private void CheckSkillPoint()
-    {
-        currentSkillPoint.text = PlayerManager.instance.GetCurrencyAmount().ToString();
     }
 }

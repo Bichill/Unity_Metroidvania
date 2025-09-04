@@ -12,7 +12,10 @@ public class PlayerWallslidState : PlayerState
     {
         base.Enter();
         if (player.IsWallDetected())
+        {
             player.jumpCount = 2;
+            player.comboInAirCount = 3;
+        }
     }
 
     public override void Exit()
@@ -45,7 +48,6 @@ public class PlayerWallslidState : PlayerState
         if (Input.GetKeyDown(KeyCode.K) && player.jumpCount>0)
         {
             player.jumpCount--;
-            // 计算45度角跳跃的向�?
             float jumpForce = PlayerManager.instance.player.jumpForce;
             float jumpDirection = -player.facingDir; // 向墙外跳跃，所以方向与面向相反
             Vector2 jumpVector = new Vector2(jumpDirection * jumpForce * 0.5f, jumpForce);

@@ -12,6 +12,10 @@ public class PlayerJumpState : PlayerState
     {
         base.Enter();
 
+        // 刷新空中连击次数
+        player.comboInAirCount = 3;
+
+        AudioManager.instance.PlaySFX(11, player.transform, Random.Range(1.1f, 1.3f), 0.15f);
         rb.velocity = new Vector2(rb.velocity.x, player.jumpForce);
     }
 
@@ -23,6 +27,11 @@ public class PlayerJumpState : PlayerState
     public override void Update()
     {
         base.Update();
+
+        if (Input.GetKeyDown(KeyCode.J) && player.comboInAirCount > 0)
+        {
+            stateMachine.ChangeState(player.primaryAttack);
+        }
 
         if (Input.GetKeyDown(KeyCode.R) && SkillManager.instance.blackHole.CanUseSkill())
         {

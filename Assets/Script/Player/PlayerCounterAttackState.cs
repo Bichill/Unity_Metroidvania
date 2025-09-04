@@ -39,6 +39,8 @@ public class PlayerCounterAttackState : PlayerState
                     stateTimer = 10f;
                     player.anim.SetBool("SuccessfulCounterAttack", true);
 
+                    AudioManager.instance.PlaySFX(6, player.transform, Random.Range(1, 1.3f), 0.8f);
+
                     player.skill.parry.UseSkill();
 
                     if (canCreateClone)

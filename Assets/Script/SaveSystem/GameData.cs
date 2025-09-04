@@ -21,12 +21,30 @@ public class GameData
     //´æ´¢¼¼ÄÜ
     public SerializableDictionary<string, bool> skillTree;
 
+    //´æ´¢½Úµã
+    public SerializableDictionary<string, bool> checkpoints;
+    public string closestCheckpointId;
+
+    //ËÀÍöµôÂä
+    public float lostCurrencyX;
+    public float lostCurrencyY;
+    public int lostCurrencyAmount;
+    public bool isPickedUpLostCurrency;
+
     public GameData()
     {
         this.currency = 0;
+        this.lostCurrencyX = 0;
+        this.lostCurrencyY = 0;
+        this.lostCurrencyAmount = 0;
+        
         skillTree = new SerializableDictionary<string, bool>();
         inventory = new SerializableDictionary<string, int>();
         hasReceivedStartingItems = false;
         equipmentId = new List<string>();
+        isPickedUpLostCurrency = true;
+
+        closestCheckpointId = string.Empty;
+        checkpoints = new SerializableDictionary<string, bool>();
     }
 }

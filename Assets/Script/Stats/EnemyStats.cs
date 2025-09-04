@@ -7,6 +7,7 @@ public class EnemyStats : CharacterStats
 {
     private Enemy enemy;
     private ItemDrop myDropSystem;
+    [SerializeField] private Stats skillpointDropAmount = new Stats();
 
     [Header("Level details")]
     [SerializeField] private int level;
@@ -16,6 +17,7 @@ public class EnemyStats : CharacterStats
 
     protected override void Start()
     {
+        skillpointDropAmount.SetDefaultValue(30);
         // 先應用等級修改器，再初始化血量
         ApplyLevelModifiers();
         base.Start();
@@ -24,6 +26,7 @@ public class EnemyStats : CharacterStats
         myDropSystem = GetComponent<ItemDrop>();
     }
 
+    // 暴击率、暴击倍率、闪避不随等级增加而增加
     private void ApplyLevelModifiers()
     {
         Modify(strength); 
@@ -32,17 +35,19 @@ public class EnemyStats : CharacterStats
         Modify(vitality);
 
         Modify(damage); 
-        Modify(critChance); 
-        Modify(critPower);
+        //Modify(critChance); 
+        //Modify(critPower);
         
         Modify(maxHealth); 
         Modify(armor); 
-        Modify(evasion); 
+        //Modify(evasion); 
         Modify(magicResistence);
         
         Modify(fireDamage); 
         Modify(iceDamage); 
         Modify(lightingDamgae);
+
+        Modify(skillpointDropAmount);
     }
 
     private void Modify(Stats _stats)
@@ -59,6 +64,8 @@ public class EnemyStats : CharacterStats
     public override void TakeDamage(int _damage)
     {
         base.TakeDamage(_damage);
+
+        AudioManager.instance.PlaySFX(17, transform, Random.Range(1.1f, 1.3f), 0.5f);
     }
 
     protected override void Die()
@@ -69,6 +76,7 @@ public class EnemyStats : CharacterStats
         base.Die();
         enemy.Die();
 
+        PlayerManager.instance.currency += skillpointDropAmount.GetValue();
         myDropSystem.GenerateDrop(); // 掉落物品
     }
 }

@@ -61,6 +61,8 @@ public class Clone_Skill_Controller : MonoBehaviour
 
     private void AttackTrigger()
     {
+        AudioManager.instance.PlaySFX(5, transform, Random.Range(1.1f, 1.4f), 0.3f);
+
         Collider2D[] colliders = Physics2D.OverlapCircleAll(attackCheck.position, attackCheckRadius);
 
         foreach (var hit in colliders)

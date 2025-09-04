@@ -187,7 +187,7 @@ public class CharacterStats : MonoBehaviour
         for (int i = 0; i <= igniteList.Count - 1; i++)
         {
             IgniteStatus ignite = igniteList[i];
-            Debug.Log("ignite i: " + i + " ignite: " + ignite.damagePerSecond);
+            //Debug.Log("ignite i: " + i + " ignite: " + ignite.damagePerSecond);
             DecreaseHealthBy(Mathf.Max(Mathf.RoundToInt(ignite.damagePerSecond), 1));
             ignite.duration -= igniteDamageCooldown;
             if (ignite.duration <= 0)

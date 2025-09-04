@@ -28,6 +28,8 @@ public class FreezingEnemies_Controller : MonoBehaviour
 
     private void FreezingAllEnemiesInRange()
     {
+        AudioManager.instance.PlaySFX(2, transform, 1.5f, 0.3f);
+
         // ™zœy¹ ‡úƒÈµÄËùÓĞÅö×²ów
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, attackRadius);
 

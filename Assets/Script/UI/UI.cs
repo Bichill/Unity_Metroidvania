@@ -9,6 +9,7 @@ public class UI : MonoBehaviour
     [Header("End Screen")]
     [SerializeField] private UI_FadeScreen fadeScreen;
     [SerializeField] private GameObject endText;
+    [SerializeField] private GameObject restartButton;
     [Space]
 
     [SerializeField] private GameObject characterUI;
@@ -29,6 +30,7 @@ public class UI : MonoBehaviour
     private void Awake()
     {
         SwitchTo(skillTreeUI);//需要激活技能树UI，分配技能事件
+        fadeScreen.gameObject.SetActive(true);
     }
 
     private void Start()
@@ -89,7 +91,7 @@ public class UI : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (transform.GetChild(i).gameObject.activeSelf)
+            if (transform.GetChild(i).gameObject.activeSelf && transform.GetChild(i).GetComponent<UI_FadeScreen>() == null)
                 return;
         }
 
@@ -105,8 +107,12 @@ public class UI : MonoBehaviour
 
     IEnumerator EndScreenCorutione()
     {
-        yield return new WaitForSeconds(2);
-
+        yield return new WaitForSeconds(1.5f);
         endText.SetActive(true);
+        yield return new WaitForSeconds(3);
+        restartButton.SetActive(true);
     }
+
+    public void RestartGameButton() => GameManager.instance.RestartScene(); 
 }
+    

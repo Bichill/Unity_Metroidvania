@@ -8,6 +8,7 @@ public class PlayerPrimaryAttackState : PlayerState
 
     private float lastTimeAttacked;
     private float comboWindow = 1;
+    private float originalGravityScale; // 新增
 
     public PlayerPrimaryAttackState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
@@ -16,21 +17,30 @@ public class PlayerPrimaryAttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        if (comboCounter > 2 || Time.time >= comboWindow + lastTimeAttacked)
+
+        originalGravityScale = rb.gravityScale; // 记录原始重力
+        
+        //当在空中时
+        if (!player.IsGroundDetected())
         {
-            comboCounter = 0;
+            rb.gravityScale = 2.5f;
+            player.comboInAirCount--;//避免空中无限平a
         }
+
+        if (comboCounter > 2 || Time.time >= comboWindow + lastTimeAttacked)
+            comboCounter = 0;
+
         float attackDir = xInput != 0 ? xInput : player.facingDir; 
         player.SetVelocity(player.attackMovement[comboCounter].x * attackDir, player.attackMovement[comboCounter].y);
         player.anim.SetInteger("ComboCounter", comboCounter);
         stateTimer = .1f;
-         
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.StartCoroutine("BusyFor", .1f);
+        rb.gravityScale = originalGravityScale; // 恢复原始重力
+        player.StartCoroutine("BusyFor", .05f); // 攻击后摇
         comboCounter++;
         lastTimeAttacked = Time.time;
     }
@@ -38,6 +48,23 @@ public class PlayerPrimaryAttackState : PlayerState
     public override void Update()
     {
         base.Update();
+
+        // 添加攻击取消窗口，在攻击后半段允许跳跃
+        // 但是不允许在地面取消后腰
+        if (stateTimer < 0.025f && Input.GetKeyDown(KeyCode.K) && player.jumpCount > 0 && !player.IsGroundDetected())
+        {
+            player.jumpCount--;
+            stateMachine.ChangeState(player.jumpState);
+            return;
+        }
+        // 同时减少空中平a后摇
+        if (stateTimer < 0.015f && Input.GetKeyDown(KeyCode.J) && player.comboInAirCount > 0 && !player.IsGroundDetected())
+        {
+            stateMachine.ChangeState(player.primaryAttack);
+            return;
+        }
+
+
         if (triggerCalled)
         {
             stateMachine.ChangeState(player.idleState);
@@ -46,10 +73,6 @@ public class PlayerPrimaryAttackState : PlayerState
         if (stateTimer<0)
         {
             player.SetZeroVelocity();
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            stateMachine.ChangeState(player.counterAttack);
         }
     }
 }

@@ -42,6 +42,7 @@ public class ThunderStrike_Controller : MonoBehaviour
             anim.transform.localRotation = Quaternion.identity;
             transform.localRotation = Quaternion.identity;
 
+            AudioManager.instance.PlaySFX(14, transform, Random.Range(0.8f, 1.3f), 0.3f);
             triggered = true;
             anim.SetTrigger("Hit");
             Invoke("DamageAndSelfDestroy", .2f);

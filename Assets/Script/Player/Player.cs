@@ -7,6 +7,7 @@ public class Player : Entity
 {
     [Header("Attack details")]
     public Vector2[] attackMovement;
+    public int comboInAirCount;
     public float counterAttackDuration = .2f;
 
     public bool isBusy { get; private set; }
@@ -91,14 +92,53 @@ public class Player : Entity
     {
         base.Update();
         stateMachine.currentState.Update();
-        CheckForDashInput();
+
         CheckFrictionCondition();
-            
+        CheckForSkillInput();
+    }
+
+    private void CheckForSkillInput()
+    {
+        //判断技能是否解锁
+        if (!skill.dash.dashUnlocked)
+            return;
+
+        switch (stateMachine.currentState)
+        {
+            case PlayerBlackholeState:
+                return;
+            case PlayerAimSwordState:
+                return;
+            case PlayerCatchSwordState:
+                return;
+            case PlayerDeadState:
+                return;
+        }
+
+        // 水晶
         if (Input.GetKeyDown(KeyCode.F) && skill.crystal.crystalUnlocked)
         {
             skill.crystal.CanUseSkill();
         }
 
+        // 格挡
+        if (Input.GetKeyDown(KeyCode.H) && SkillManager.instance.parry.parryUnlocked && SkillManager.instance.parry.CanUseSkill())
+        {
+            stateMachine.ChangeState(counterAttack);
+        }
+
+        if (Input.GetKeyDown(KeyCode.L) && SkillManager.instance.dash.CanUseSkill())
+        {
+            dashDir = Input.GetAxisRaw("Horizontal");
+
+            if (dashDir == 0)
+            {
+                dashDir = facingDir;
+            }
+            stateMachine.ChangeState(dashState);
+        }
+
+        // 药剂
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Inventory.instance.UseFlask();
@@ -182,35 +222,6 @@ public class Player : Entity
         dashDir = direction;
     }
 
-    private void CheckForDashInput()
-    {
-        //判断技能是否解锁
-        if (!skill.dash.dashUnlocked)
-            return;
-
-        switch (stateMachine.currentState)
-        {
-            case PlayerBlackholeState:
-                return;
-            case PlayerAimSwordState:
-                return;
-            case PlayerCatchSwordState:
-                return;
-            case PlayerDeadState: 
-                return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.L) && SkillManager.instance.dash.CanUseSkill())
-        {
-            dashDir = Input.GetAxisRaw("Horizontal");
-            
-            if (dashDir == 0)
-            {
-                dashDir = facingDir;
-            }
-            stateMachine.ChangeState(dashState);
-        }
-    }
     #endregion  
 
     public override void Die()

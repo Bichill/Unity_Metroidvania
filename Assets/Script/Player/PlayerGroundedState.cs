@@ -11,8 +11,12 @@ public class PlayerGroundedState : PlayerState
 
     public override void Enter()
     {
-        if(player.IsGroundDetected())//角色只有在地上才刷新跳跃次数
+        if (player.IsGroundDetected())//角色只有在地上才刷新跳跃次数
+        {
             player.jumpCount = 1;
+            player.comboInAirCount = 3;
+        }
+            
         base.Enter();
     }
 
@@ -38,12 +42,8 @@ public class PlayerGroundedState : PlayerState
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.H) && SkillManager.instance.parry.parryUnlocked && SkillManager.instance.parry.CanUseSkill())
-        {
-            stateMachine.ChangeState(player.counterAttack);
-        }
-
-        if (Input.GetKey(KeyCode.J))
+        // 平a
+        if (Input.GetKeyDown(KeyCode.J))
         {
             stateMachine.ChangeState(player.primaryAttack);
         }
