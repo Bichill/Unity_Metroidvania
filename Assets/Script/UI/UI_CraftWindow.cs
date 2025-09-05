@@ -55,8 +55,11 @@ public class UI_CraftWindow : MonoBehaviour
 
         craftButton.onClick.AddListener(() => {
             int sfxIndex;
-            sfxIndex = Inventory.instance.CanCraft(_data, _data.craftingMaterials) == true ? 7 : 0;
-            AudioManager.instance.PlaySFX(sfxIndex, null, 1, 1);
+            if (Inventory.instance.CanCraft(_data, _data.craftingMaterials))
+                sfxIndex = 7;
+            else
+                sfxIndex = 0;
+            AudioManager.instance.PlaySFX(sfxIndex, null, 1.2f, 1);
         });
     }
 

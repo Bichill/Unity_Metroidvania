@@ -2,9 +2,10 @@ using System.Collections;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class UI : MonoBehaviour
+public class UI : MonoBehaviour,ISaveManager
 {
     [Header("End Screen")]
     [SerializeField] private UI_FadeScreen fadeScreen;
@@ -24,6 +25,10 @@ public class UI : MonoBehaviour
     public UI_StatToolTip statToolTip;
     public UI_CraftWindow craftWindow;
 
+    [Space]
+    [SerializeField] private UI_VolumeSlider[] volunesettings;
+
+    [Space]
     [Header("Other")]
     public TextMeshProUGUI skillPoint_UI;
 
@@ -71,6 +76,7 @@ public class UI : MonoBehaviour
 
         if (_menu != null)
         {
+            AudioManager.instance.PlaySFX(21, null, 2f, 0.3f);
             _menu.SetActive(true);
         }
     }
@@ -113,6 +119,30 @@ public class UI : MonoBehaviour
         restartButton.SetActive(true);
     }
 
-    public void RestartGameButton() => GameManager.instance.RestartScene(); 
+    public void RestartGameButton() => GameManager.instance.RestartScene();
+
+    public void LoadData(GameData _data)
+    {
+        foreach (KeyValuePair<string,float> pair in _data.volumeSettings)
+        {
+            foreach (UI_VolumeSlider item in volunesettings)
+            {
+                if (item.parameter == pair.Key)
+                {
+                    item.LoadSlider(pair.Value);
+                }
+            }
+        }
+    }
+
+    public void SaveData(ref GameData _data)
+    {
+        _data.volumeSettings.Clear();
+
+        foreach (UI_VolumeSlider item in volunesettings)
+        {
+            _data.volumeSettings.Add(item.parameter, item.slider.value); 
+        }
+    }
 }
     

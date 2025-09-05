@@ -14,7 +14,9 @@ public class UI_EquipmentSlot : UI_ItemSlot
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        if(eventData == null)
+        AudioManager.instance.PlaySFX(0, null, 1.2f, 1);
+
+        if (eventData == null)
             return;
         
         // 檢查是否有裝備可以卸下

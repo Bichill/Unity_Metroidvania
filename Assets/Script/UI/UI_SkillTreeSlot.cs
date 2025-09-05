@@ -28,7 +28,10 @@ public class UI_SkillTreeSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitH
 
     private void Awake()
     {
-        GetComponent<Button>().onClick.AddListener(() => UnlockSkillSlot());
+        GetComponent<Button>().onClick.AddListener(
+            () => { UnlockSkillSlot();
+                AudioManager.instance.PlaySFX(0, null, 1.2f, 1);
+            } );
     }
 
     private void Start()

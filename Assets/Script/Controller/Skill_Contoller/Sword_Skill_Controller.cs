@@ -50,7 +50,7 @@ public class Sword_Skill_Controller : MonoBehaviour
     public void SetupSword(Vector2 _dir,float _gravityScale,float _freezeTimeDuration,float _vulnerableDuration, float _returnSpeed,
         float _maxSwordReturnDistance)
     {
-        AudioManager.instance.PlaySFX(10, transform, 1, 0.3f);
+        AudioManager.instance.PlaySFX(10, transform, 1, 1f);
         rb.velocity =  _dir;
         rb.gravityScale = _gravityScale;
         freezeTimeDuration = _freezeTimeDuration;
@@ -81,7 +81,7 @@ public class Sword_Skill_Controller : MonoBehaviour
 
     public void SetupSpin(bool _isSpinning, float _maxTravelDistance, float _spinDuration ,float _hitCooldown)
     {
-        AudioManager.instance.PlaySFX(18, transform, 1f, 0.3f);
+        AudioManager.instance.PlaySFX(18, transform, 1f, 1f);
         isSpinning = _isSpinning;
         maxTravelDistance = _maxTravelDistance;
         spinDuration = _spinDuration;

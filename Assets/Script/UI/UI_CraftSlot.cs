@@ -20,6 +20,7 @@ public class UI_CraftSlot : UI_ItemSlot
 
     public override void OnPointerDown(PointerEventData eventData)
     {
+        AudioManager.instance.PlaySFX(0, null, 1.2f, 1);
         ui.craftWindow.SetupCraftWindow(item.data as ItemData_Equipment);
     }
 }

@@ -134,8 +134,8 @@ public class Enemy : Entity
 
     public virtual RaycastHit2D IsPlayerDetected()
     {
-        RaycastHit2D playerHit = Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 7, whatIsPlayer);
-        RaycastHit2D wallHit = Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir , 7, whatIsGround);
+        RaycastHit2D playerHit = Physics2D.Raycast(wallCheck_1.position, Vector2.right * facingDir, 7, whatIsPlayer);
+        RaycastHit2D wallHit = Physics2D.Raycast(wallCheck_1.position, Vector2.right * facingDir , 7, whatIsGround);
 
         if (!playerHit || (wallHit && wallHit.distance < playerHit.distance))
         {

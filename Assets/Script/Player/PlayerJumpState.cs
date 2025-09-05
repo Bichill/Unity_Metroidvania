@@ -15,7 +15,7 @@ public class PlayerJumpState : PlayerState
         // 刷新空中连击次数
         player.comboInAirCount = 3;
 
-        AudioManager.instance.PlaySFX(11, player.transform, Random.Range(1.1f, 1.3f), 0.15f);
+        AudioManager.instance.PlaySFX(11, player.transform, Random.Range(1.1f, 1.3f), 0.7f);
         rb.velocity = new Vector2(rb.velocity.x, player.jumpForce);
     }
 

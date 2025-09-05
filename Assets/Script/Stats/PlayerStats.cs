@@ -90,7 +90,7 @@ public class PlayerStats : CharacterStats
 
     private IEnumerator delayPlaySFX()
     {
-        AudioManager.instance.PlaySFX(16, transform, Random.Range(1, 1.3f), 0.7f);
+        AudioManager.instance.PlaySFX(16, transform, Random.Range(1, 1.3f), 1f);
 
         yield return new WaitForSeconds(1f);
     }

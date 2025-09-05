@@ -57,6 +57,8 @@ public class UI_ItemSlot : MonoBehaviour,IPointerDownHandler,IPointerEnterHandle
         if (item == null || item.data == null)
             return;// 如果物品為空，不執行任何操作
 
+        AudioManager.instance.PlaySFX(0, null, 1.2f, 1);
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             Inventory.instance.RemoveItem(item.data);

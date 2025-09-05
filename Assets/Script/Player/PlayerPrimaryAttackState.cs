@@ -18,6 +18,9 @@ public class PlayerPrimaryAttackState : PlayerState
     {
         base.Enter();
 
+        // 记录当前攻击状态
+        player.SetLastAttackState(this);
+
         originalGravityScale = rb.gravityScale; // 记录原始重力
         
         //当在空中时
@@ -58,7 +61,7 @@ public class PlayerPrimaryAttackState : PlayerState
             return;
         }
         // 同时减少空中平a后摇
-        if (stateTimer < 0.015f && Input.GetKeyDown(KeyCode.J) && player.comboInAirCount > 0 && !player.IsGroundDetected())
+        if (stateTimer < 0.05f && Input.GetKeyDown(KeyCode.J) && player.comboInAirCount > 0 && !player.IsGroundDetected())
         {
             stateMachine.ChangeState(player.primaryAttack);
             return;

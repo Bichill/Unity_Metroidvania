@@ -28,6 +28,8 @@ public class Player : Entity
     [Header("Friction info")]
     private bool isFrictionZero = false;
 
+    [Header("Attack State Tracking")]
+    private PlayerState lastAttackState; // 新增：记录上一个攻击状态
 
     public float dashDir { get; private set; }
 
@@ -99,10 +101,6 @@ public class Player : Entity
 
     private void CheckForSkillInput()
     {
-        //判断技能是否解锁
-        if (!skill.dash.dashUnlocked)
-            return;
-
         switch (stateMachine.currentState)
         {
             case PlayerBlackholeState:
@@ -127,7 +125,7 @@ public class Player : Entity
             stateMachine.ChangeState(counterAttack);
         }
 
-        if (Input.GetKeyDown(KeyCode.L) && SkillManager.instance.dash.CanUseSkill())
+        if (Input.GetKeyDown(KeyCode.L) && SkillManager.instance.dash.CanUseSkill() && skill.dash.dashUnlocked)
         {
             dashDir = Input.GetAxisRaw("Horizontal");
 
@@ -192,6 +190,7 @@ public class Player : Entity
 
     public void ExitBlackHoleAbility()
     {
+        AudioManager.instance.StopSFX(23);
         stateMachine.ChangeState(airState);
     }
 
@@ -213,7 +212,25 @@ public class Player : Entity
         isBusy = false;
     }
 
-    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+    public void AnimationTrigger()
+    {
+        // 优先使用lastAttackState，如果不存在则使用currentState
+        if (lastAttackState != null)
+        {
+            lastAttackState.AnimationFinishTrigger();
+            lastAttackState = null; // 调用后清空
+        }
+        else
+        {
+            stateMachine.currentState.AnimationFinishTrigger();
+        }
+    }
+
+    // 在状态切换时记录攻击状态
+    public void SetLastAttackState(PlayerState attackState)
+    {
+        lastAttackState = attackState;
+    }
 
     #region "DashCheck"
 

@@ -31,6 +31,9 @@ public class GameData
     public int lostCurrencyAmount;
     public bool isPickedUpLostCurrency;
 
+    //“Ù¡ø
+    public SerializableDictionary<string, float> volumeSettings;
+
     public GameData()
     {
         this.currency = 0;
@@ -46,5 +49,6 @@ public class GameData
 
         closestCheckpointId = string.Empty;
         checkpoints = new SerializableDictionary<string, bool>();
+        volumeSettings = new SerializableDictionary<string, float>();
     }
 }

@@ -11,7 +11,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private float sfxMinimumDistance;
 
     public bool playBgm;
-    private int bgmIndex;
+    [SerializeField] private int bgmIndex;
+
+    private bool canPlaySfx;
 
     private void Awake()
     {
@@ -19,6 +21,8 @@ public class AudioManager : MonoBehaviour
             Destroy(instance.gameObject);
         else
             instance = this;
+
+        Invoke("AllowSfx", 0.1f);
     }
 
     private void Update()
@@ -34,6 +38,9 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(int _sfxIndex, Transform _source, float _pitch = 1, float _volume = 1)
     {
+        if (!canPlaySfx)
+            return;
+
         // 如果声音对象存在且超出最远
         if (_source != null &&
             Vector2.Distance(PlayerManager.instance.player.transform.position, _source.position) > sfxMinimumDistance)
@@ -66,4 +73,6 @@ public class AudioManager : MonoBehaviour
             bgm[i].Stop();
         }
     }
+
+    public void AllowSfx() => canPlaySfx = true;
 }

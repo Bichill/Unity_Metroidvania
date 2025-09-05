@@ -12,7 +12,7 @@ public class SkeletonMoveState : SkeletonGroundedState
     {
         base.Enter();
 
-        AudioManager.instance.PlaySFX(8, enemy.transform, Random.Range(1, 1.3f), 0.5f);
+        AudioManager.instance.PlaySFX(8, enemy.transform, Random.Range(1, 1.3f), 1f);
     }
 
     public override void Exit()

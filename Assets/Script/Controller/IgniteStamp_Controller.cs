@@ -15,7 +15,7 @@ public class IgniteStamp_Controller : MonoBehaviour
 
     public void Setup(CharacterStats _targetStats)
     {
-        AudioManager.instance.PlaySFX(12, transform, 0.7f, 0.1f);
+        AudioManager.instance.PlaySFX(12, transform, 0.7f, 0.7f);
         targetStats = _targetStats;
     }
 
@@ -34,6 +34,7 @@ public class IgniteStamp_Controller : MonoBehaviour
         // 2. 层数为0时销毁
         if (igniteStampCount == 0)
         {
+            AudioManager.instance.StopSFX(12);
             Destroy(gameObject);
         }
     }

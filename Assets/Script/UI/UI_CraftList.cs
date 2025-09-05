@@ -32,6 +32,7 @@ public class UI_CraftList : MonoBehaviour , IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        AudioManager.instance.PlaySFX(0, null, 1.2f, 1);
         SetupCraftList();
     }
 

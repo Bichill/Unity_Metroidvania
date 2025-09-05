@@ -65,7 +65,7 @@ public class EnemyStats : CharacterStats
     {
         base.TakeDamage(_damage);
 
-        AudioManager.instance.PlaySFX(17, transform, Random.Range(1.1f, 1.3f), 0.5f);
+        AudioManager.instance.PlaySFX(17, transform, Random.Range(1.1f, 1.3f), 1f);
     }
 
     protected override void Die()

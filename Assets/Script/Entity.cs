@@ -22,10 +22,14 @@ public class Entity : MonoBehaviour
     [Header("Collision info")]
     public Transform attackCheck;
     public float attackCheckRadius;
-    [SerializeField] protected Transform groundCheck;
-    [SerializeField] protected float groundCheckDistance;
-    [SerializeField] protected Transform wallCheck;
-    [SerializeField] protected float wallCheckDistance;
+    [SerializeField] protected Transform groundCheck_1;
+    [SerializeField] protected Transform groundCheck_2;
+    [SerializeField] protected float groundCheckDistance_1;
+    [SerializeField] protected float groundCheckDistance_2;
+    [SerializeField] protected Transform wallCheck_1;
+    [SerializeField] protected Transform wallCheck_2;
+    [SerializeField] protected float wallCheckDistance_1;
+    [SerializeField] protected float wallCheckDistance_2;
     [SerializeField] protected LayerMask whatIsGround;
 
     [Header("Friction info")]
@@ -124,16 +128,34 @@ public class Entity : MonoBehaviour
     }
 
     #region Collison
-    public virtual bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down,
-        groundCheckDistance, whatIsGround);
-    public virtual bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir,
-        wallCheckDistance, whatIsGround);
+    public virtual bool IsGroundDetected()
+    {
+        if (Physics2D.Raycast(groundCheck_1.position, Vector2.down, groundCheckDistance_1, whatIsGround) ||
+            Physics2D.Raycast(groundCheck_2.position, Vector2.down, groundCheckDistance_2, whatIsGround))
+        {
+            return true;
+        }
+        return false;
+    }
+    public virtual bool IsWallDetected()
+    {
+        if (Physics2D.Raycast(wallCheck_1.position, Vector2.down, wallCheckDistance_1, whatIsGround) ||
+            Physics2D.Raycast(wallCheck_2.position, Vector2.down, wallCheckDistance_2, whatIsGround))
+        {
+            return true;
+        }
+        return false;
+    }
     protected virtual void OnDrawGizmos()
     {
-        Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x,
-            groundCheck.position.y - groundCheckDistance));
-        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance,
-            wallCheck.position.y));
+        Gizmos.DrawLine(groundCheck_1.position, new Vector3(groundCheck_1.position.x,
+            groundCheck_1.position.y - groundCheckDistance_1));
+        Gizmos.DrawLine(groundCheck_2.position, new Vector3(groundCheck_2.position.x,
+            groundCheck_2.position.y - groundCheckDistance_2));
+        Gizmos.DrawLine(wallCheck_1.position, new Vector3(wallCheck_1.position.x + wallCheckDistance_1,
+            wallCheck_1.position.y));
+        Gizmos.DrawLine(wallCheck_2.position, new Vector3(wallCheck_2.position.x + wallCheckDistance_2,
+            wallCheck_2.position.y));
         Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
         Gizmos.color = Color.red;
     }
